@@ -939,27 +939,6 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
     return false;
   }
 
-  Future<bool> _onWillPop() async {
-    return (await showDialog(
-          context: context,
-          builder: (context) => new AlertDialog(
-            title: new Text('Are you sure?'),
-            content: new Text('Do you want to exit an App'),
-            actions: <Widget>[
-              TextButton(
-                onPressed: () => Navigator.of(context).pop(false),
-                child: new Text('No'),
-              ),
-              TextButton(
-                onPressed: () => Navigator.of(context).pop(true),
-                child: new Text('Yes'),
-              ),
-            ],
-          ),
-        )) ??
-        false;
-  }
-
   Future<void> getstate() async {
     String fileName = 'getStatesData.json';
     var dir = await getTemporaryDirectory();
@@ -1024,120 +1003,10 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
     }
   }
 
-  Future<bool> _onBack() async {
-    // await storage.clear();
-    //
-    // setState(() {
-    //   list.items = storage.getItem('favourite_news') ?? [];
-    // });
-
-    // var items = storage.getItem('favourite_news');
-    //
-    // if (items != null) {
-    //   list.items = List<Favourite>.from(
-    //     (items as List).map(
-    //           (item) => Favourite(
-    //             api: item['api'],
-    //             id: item['id'],
-    //       ),
-    //     ),
-    //   );
-    //   List<String> fav=list.items.map((item) {
-    //     return item.id;
-    //   }).toList();
-    //   print('these are the $fav');
-    //   // print(list.items[0]);
-    // }
-    // print(s);
-    print("On back method");
-
-    if ((_scaffoldKey.currentState!.isDrawerOpen == false)) {
-      // print("if clicked");
-      setState(() {
-        _scaffoldKey.currentState!.openEndDrawer();
-      });
-      return Future.value(true);
-    } else {
-      print(
-        "Scaffold" + _scaffoldKey.currentState.toString(),
-      );
-
-      final currentTheme = Provider.of<ThemeChanger>(context).getTheme();
-      final themeMode = ThemeModeTypes();
-
-      return await showDialog(
-        context: context,
-        builder: (context) => new AlertDialog(
-          title: Text('City News',
-              style: TextStyle(
-                  color: !(currentTheme == themeMode.darkMode)
-                      ? Colors.black
-                      : Colors.white)),
-          backgroundColor: (currentTheme == themeMode.darkMode)
-              ? Color(0xFF4D555F)
-              : Colors.white,
-          content: Text('क्या आप ऐप बंद करना चाहते हैं?',
-              style: TextStyle(
-                  color: !(currentTheme == themeMode.darkMode)
-                      ? Colors.black
-                      : Colors.white)),
-          actions: <Widget>[
-            Padding(
-              padding: const EdgeInsets.only(bottom: 10, right: 20),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: [
-                  SizedBox(
-                    width: 20,
-                  ),
-                  InkWell(
-                      onTap: () {
-                        try {
-                          launch("market://details?id=" + 'com.newsbank.app');
-                        } on PlatformException catch (_) {
-                          launch(
-                              "https://play.google.com/store/apps/details?id=" +
-                                  'com.newsbank.app');
-                        } finally {
-                          launch(
-                              "https://play.google.com/store/apps/details?id=" +
-                                  'com.newsbank.app');
-                        }
-                        // _launchURL(
-                        //     'https://play.google.com/store/apps/details?id=com.newsbank.app');
-                      },
-                      child: Container(
-                          child: Text('रेटिंग दें',
-                              style: TextStyle(color: Colors.blue)))),
-                  SizedBox(
-                    width: 120,
-                  ),
-                  InkWell(
-                      onTap: () => Navigator.pop(context, false),
-                      child: Container(
-                          child: Text('नहीं',
-                              style: TextStyle(color: Colors.blue)))),
-                  SizedBox(
-                    width: 30,
-                  ),
-                  InkWell(
-                      onTap: () => SystemChannels.platform
-                          .invokeMethod('SystemNavigator.pop'),
-                      child: Container(
-                          child: Text('बंद करें',
-                              style: TextStyle(color: Colors.blue)))),
-                ],
-              ),
-            ),
-          ],
-        ),
-      );
-    }
-  }
 
   ScrollController _scrollController = ScrollController();
 
-  final _controller = ScrollController();
+
   bool isscrollDown = false;
 
   // static bool _show = true;
@@ -2857,8 +2726,8 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
       required String label,
       required int tabIndex,
       required Function() onTap}) {
-    // final currentTheme = Provider.of<ThemeChanger>(context).getTheme();
-    // final themeMode = ThemeModeTypes();
+    final currentTheme = Provider.of<ThemeChanger>(context).getTheme();
+    final themeMode = ThemeModeTypes();
     return GestureDetector(
       onTap: onTap,
       child: Padding(
@@ -2874,7 +2743,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                 .tabIndex ==
                             tabIndex
                         ? Colors.blue[900]
-                        : Colors.black),
+                        :(currentTheme == themeMode.darkMode)? Colors.white:Colors.black),
             Padding(
               padding: const EdgeInsets.only(top: 2),
               child: Text(
@@ -2891,7 +2760,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                 .tabIndex ==
                             tabIndex
                         ? Colors.blue[900]
-                        : Colors.black),
+                        : (currentTheme == themeMode.darkMode)? Colors.white:Colors.black),
               ),
             ),
           ],

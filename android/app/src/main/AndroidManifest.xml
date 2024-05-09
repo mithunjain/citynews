@@ -2,6 +2,9 @@
     package="com.newsbank.app">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+
     <application
         android:icon="@mipmap/launcher_icon"
         android:label="City News"
@@ -30,10 +33,8 @@
                 android:name="io.flutter.embedding.android.SplashScreenDrawable"
                 android:resource="@drawable/launch_background" />
             <intent-filter>
-                <action android:name="android.intent.action.MAIN" />: android:exported=”true”
-                <category android:name="android.intent.category.LAUNCHER" />:
-                android:exported=”true”
-            </intent-filter>
+                <action android:name="android.intent.action.MAIN" />: android:exported=”true” <category
+                    android:name="android.intent.category.LAUNCHER" />: android:exported=”true” </intent-filter>
 
             <!-- Deep linking -->
             <meta-data
@@ -43,16 +44,15 @@
             <!--                <action android:name="android.intent.action.VIEW" />-->
             <!--                &lt;!&ndash; <category android:name="android.intent.category.DEFAULT" />-->
             <!--                <category android:name="android.intent.category.BROWSABLE" /> &ndash;&gt;-->
-            <!--                &lt;!&ndash; <data android:scheme="http" android:host="ingnnewsbank.page.link" /> &ndash;&gt;-->
+            <!--                &lt;!&ndash; <data android:scheme="http" android:host="ingnnewsbank.page.link" />
+            &ndash;&gt;-->
             <!--                <data android:scheme="http" />-->
             <!--            </intent-filter>-->
 
             <intent-filter>
-                <action android:name="android.intent.action.VIEW" />: android:exported=”true”
-                <category android:name="android.intent.category.DEFAULT" />: android:exported=”true”
-                <category android:name="android.intent.category.BROWSABLE" />:
-                android:exported=”true”
-                <data
+                <action android:name="android.intent.action.VIEW" />: android:exported=”true” <category
+                    android:name="android.intent.category.DEFAULT" />: android:exported=”true” <category
+                    android:name="android.intent.category.BROWSABLE" />: android:exported=”true” <data
                     android:host="ingnnewsbank.page.link"
                     android:scheme="https" />
             </intent-filter>
