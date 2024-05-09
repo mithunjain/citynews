@@ -5,6 +5,7 @@ import 'package:animated_bottom_navigation_bar/animated_bottom_navigation_bar.da
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
+import 'package:news/data/image_data_collection.dart';
 import 'package:news/data/text_collection.dart';
 import 'package:news/provider/anya_rajya_provider.dart';
 import 'package:news/provider/apna_ragya_provider.dart';
@@ -1181,9 +1182,9 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
       ..load();
 
     final currentTheme = Provider.of<ThemeChanger>(context).getTheme();
+    final themeMode = ThemeModeTypes();
     final isAutomaticMode =
         Provider.of<ThemeChanger>(context).isAutomaticMode();
-    final themeMode = ThemeModeTypes();
 
     print("Getting Current Theme: ${currentTheme}");
 
@@ -1446,7 +1447,9 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                   ? Colors.white
                   : Colors.black,
               child: Padding(
-                padding: const EdgeInsets.only(bottom: 125,),
+                padding: const EdgeInsets.only(
+                  bottom: 125,
+                ),
                 child: PageView.builder(
                   controller: Provider.of<HomePageIndexProvider>(context)
                       .pagecontroller,
@@ -1726,13 +1729,13 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
         alignment: Alignment.bottomCenter,
         radius: 60,
         toggleButtonBoxShadow: [BoxShadow(color: Colors.transparent)],
-        toggleButtonColor: Colors.white,
-        toggleButtonIconColor: Colors.blue[900],
+        toggleButtonColor: Colors.blue[900],
+        toggleButtonIconColor: Colors.white,
         toggleButtonAnimatedIconData: AnimatedIcons.menu_close,
         items: [
           CircularMenuItem(
               icon: Icons.tv,
-              color: Colors.blue[700],
+              color: Colors.blue[900],
               boxShadow: [],
               onTap: () {
                 Navigator.push(context,
@@ -1749,7 +1752,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
               }),
           CircularMenuItem(
               icon: Icons.radio,
-              color: Colors.blue[700],
+              color: Colors.blue[900],
               boxShadow: [],
               enableBadge: false,
               onTap: () {
@@ -1759,26 +1762,74 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
         ],
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-      bottomNavigationBar: AnimatedBottomNavigationBar(
-          icons: iconList,
-          blurEffect: true,
-          activeIndex: _tabIndex,
-          elevation: 0,
-          inactiveColor: Colors.grey,
-          backgroundColor: Colors.blue[900],
-          activeColor: Colors.white,
-          gapLocation: GapLocation.center,
-          notchSmoothness: NotchSmoothness.verySmoothEdge,
-          leftCornerRadius: 32,
-          rightCornerRadius: 32,
-          onTap: (index) {
-            Provider.of<HomePageIndexProvider>(context, listen: false)
-                .changeTabIndex(index);
-            if (_isMenuOpen) {
-              _toggleMenu();
-            }
-            //other params
-          }),
+      bottomNavigationBar: Container(
+        height: 55,
+        decoration: BoxDecoration(
+          color: !(currentTheme == themeMode.darkMode)
+              ? Colors.white
+              : Colors.black,
+        ),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: [
+            _bottomNavigationBarItem(
+                iconSrc: ImageDataCollection.homeIcon,
+                label: "   होम   ",
+                tabIndex: 0,
+                onTap: () =>
+                    Provider.of<HomePageIndexProvider>(context, listen: false)
+                        .changeTabIndex(0)),
+            _bottomNavigationBarItem(
+                iconSrc: ImageDataCollection.myCityICon,
+                label: "मेरा शहर",
+                tabIndex: 1,
+                onTap: () =>
+                    Provider.of<HomePageIndexProvider>(context, listen: false)
+                        .changeTabIndex(1)),
+            SizedBox(
+              width: 30,
+            ),
+            _bottomNavigationBarItem(
+                iconSrc: ImageDataCollection.otherStateIcon,
+                label: "अन्य राज्य",
+                tabIndex: 2,
+                onTap: () =>
+                    Provider.of<HomePageIndexProvider>(context, listen: false)
+                        .changeTabIndex(2)),
+            _bottomNavigationBarItem(
+                iconSrc: ImageDataCollection.worldNewsIcon,
+                label: "न्यूज वर्ल्ड",
+                tabIndex: 3,
+                onTap: () =>
+                    Provider.of<HomePageIndexProvider>(context, listen: false)
+                        .changeTabIndex(3)),
+          ],
+        ),
+      ),
+
+      //  AnimatedBottomNavigationBar(
+      //     icons: iconList,
+      //     blurEffect: true,
+      //     activeIndex: _tabIndex,
+      //     elevation: 0,
+      //     inactiveColor: Colors.grey,
+      //     backgroundColor: !(currentTheme == themeMode.darkMode)
+      //         ? Colors.white
+      //         : Colors.black,
+      //     activeColor: Colors.blue[900],
+      //     gapLocation: GapLocation.center,
+      //     notchSmoothness: NotchSmoothness.verySmoothEdge,
+      //     leftCornerRadius: 0,
+      //     rightCornerRadius: 0,
+
+      //     onTap: (index) {
+      //       Provider.of<HomePageIndexProvider>(context, listen: false)
+      //           .changeTabIndex(index);
+      //       if (_isMenuOpen) {
+      //         _toggleMenu();
+      //       }
+      //       //other params
+      //     }),
       // bottomSheet: Container(
       //   color: Colors.white,
       //   child: CircularBottomNavigation(
@@ -2938,6 +2989,48 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
           builder: (context, provider, child) {
             return _pages[provider.tabIndex];
           },
+        ),
+      ),
+    );
+  }
+
+  _bottomNavigationBarItem(
+      {required String iconSrc,
+      required String label,
+      required int tabIndex,
+      required Function() onTap}) {
+    final currentTheme = Provider.of<ThemeChanger>(context).getTheme();
+    final themeMode = ThemeModeTypes();
+    return GestureDetector(
+      onTap: onTap,
+      child: Padding(
+        padding:
+            EdgeInsets.only(left: tabIndex == 2 ? 50 : 5, right: 5, top: 8),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Image.asset(
+              iconSrc,
+              scale: 23,
+              color: tabIndex == 2 && (currentTheme == themeMode.darkMode)
+                  ? Colors.white
+                  : null,
+            ),
+            Padding(
+              padding: const EdgeInsets.only(top: 2),
+              child: Text(
+                label,
+                style: TextStyle(
+                    color: Provider.of<HomePageIndexProvider>(context,
+                                    listen: false)
+                                .tabIndex ==
+                            tabIndex
+                        ? Colors.blue[900]
+                        : Colors.grey),
+              ),
+            ),
+          ],
         ),
       ),
     );

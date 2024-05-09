@@ -10,6 +10,8 @@ class ImageDataCollection {
   static const String myCityICon = "images/myCityIcon.png";
   static const String trendigNews = "images/trendingNewsIcon.png";
   static const String worldNewsIcon = "images/worlNewsIcons.png";
+  static const String radioIcon = "images/radioIcon.png";
+  static const String liveNewsIcon = "images/liveNewsIcon.png";
 }
 
 
