@@ -6,6 +6,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:http/http.dart' as http;
+import 'package:lottie/lottie.dart';
+import 'package:news/data/image_data_collection.dart';
 import 'package:news/screens/home_screen/ads/add_helper.dart';
 import 'package:news/screens/home_screen/home_screen.dart';
 import 'package:news/widgets/styles.dart';
@@ -123,40 +125,49 @@ class _LiveTVScreenState extends State<LiveTVScreen> {
         //   // backgroundColor: Colors.white,
         // ),
         body: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Expanded(
-              flex: 2,
+              flex: 3,
               child: _videocontroller?.value.isInitialized ?? true
                   ? isBuffering
                       ? Center(
                           child: CircularProgressIndicator(),
                         )
                       : Chewie(
+                        
                           controller: _chewieController!,
                         )
-
-                  // AspectRatio(
-                  //         aspectRatio: 16 / 9,
-                  //         child: VideoPlayer(_controller!),
-                  //       )
                   : Container(
                       child: Center(
                         child: CircularProgressIndicator(),
                       ),
                     ),
             ),
+            Container(
+              margin: EdgeInsets.only(top: 0),
+              color: Colors.red,
+              width: MediaQuery.sizeOf(context).width,
+              child: Padding(
+                padding: const EdgeInsets.only(left: 12, top: 15, bottom: 15),
+                child: heading(
+                    text: 'Other News Channel',
+                    weight: FontWeight.bold,
+                    color: Colors.white),
+              ),
+            ),
             Expanded(
               flex: 5,
               child: Padding(
                 padding: const EdgeInsets.all(8.0),
-                child: GridView.builder(
+                child: ListView.builder(
                   itemCount: tvDataList.length,
                   shrinkWrap: true,
                   scrollDirection: Axis.vertical,
                   physics: ScrollPhysics(),
-                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 2,
-                  ),
+                  // gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                  //   crossAxisCount: 2,
+                  // ),
                   itemBuilder: (BuildContext context, int index) {
                     return Material(
                       child: GestureDetector(
@@ -169,45 +180,54 @@ class _LiveTVScreenState extends State<LiveTVScreen> {
                           _videocontroller!.dispose();
                           changeChannel();
                         },
-                        child: Container(
-                          decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(10),
-                              color: Colors.white,
-                              border: Border.all(
-                                  color: currentChannel ==
-                                          tvDataList[index]["embed_url"]
-                                      ? Colors.blue
-                                      : Colors.transparent,
-                                  width: 3)),
-                          child: Card(
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Expanded(
-                                  child: Container(
-                                    width: MediaQuery.sizeOf(context).width,
-                                    decoration: BoxDecoration(
-                                        color: Colors.red.withOpacity(0.2),
-                                        borderRadius: BorderRadius.only(
-                                            topLeft: Radius.circular(10),
-                                            topRight: Radius.circular(10))),
-                                    child: new CachedNetworkImage(
-                                      imageUrl: tvDataList[index]["logo"],
+                        child: Stack(
+                          children: [
+                            Container(
+                              height: 165,
+                              decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(10),
+                                  color: Colors.white,
+                                  border: Border.all(
+                                      color: currentChannel ==
+                                              tvDataList[index]["embed_url"]
+                                          ? Colors.blue
+                                          : Colors.transparent,
+                                      width: 3)),
+                              child: Card(
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Container(
+                                      height: 120,
+                                      width: MediaQuery.sizeOf(context).width,
+                                      decoration: BoxDecoration(
+                                          color: Colors.red.withOpacity(0.2),
+                                          borderRadius: BorderRadius.only(
+                                              topLeft: Radius.circular(10),
+                                              topRight: Radius.circular(10))),
+                                      child: new CachedNetworkImage(
+                                        imageUrl: tvDataList[index]["logo"],
+                                      ),
                                     ),
-                                  ),
+                                    Padding(
+                                      padding: const EdgeInsets.symmetric(
+                                          vertical: 5),
+                                      child: heading(
+                                          text: tvDataList[index]["title"],
+                                          weight: FontWeight.w800,
+                                          color: Colors.blue[900]!,
+                                          scale: 0.9),
+                                    )
+                                  ],
                                 ),
-                                Padding(
-                                  padding:
-                                      const EdgeInsets.symmetric(vertical: 5),
-                                  child: heading(
-                                      text: tvDataList[index]["title"],
-                                      weight: FontWeight.w800,
-                                      color: Colors.blue[900]!,
-                                      scale: 0.9),
-                                )
-                              ],
+                              ),
                             ),
-                          ),
+                            Positioned(
+                                top: 10,
+                                left: 10,
+                                child: Lottie.asset(AppAnimations.liveNews,
+                                    height: 17))
+                          ],
                         ),
                       ),
                     );

@@ -18,4 +18,5 @@ class ImageDataCollection {
 class AppAnimations{
   static const String playRedioIcon1='assets/animations/musicPlay1.json';
   static const String playRedioIcon2='assets/animations/musicPlay2.json';
+  static const String liveNews='assets/animations/liveNews1.json';
 }

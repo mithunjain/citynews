@@ -58,13 +58,13 @@ class _RadioScreenState extends State<RadioScreen> {
         backgroundColor: currentTheme == themeMode.lightMode
             ? ColorCollection.pureWhiteColor
             : Colors.black,
-        appBar: AppBar(
-          iconTheme: IconThemeData(color: Colors.white),
-          backgroundColor: ColorCollection.lightModeAppBarColor,
-          elevation: 0,
-          title: const Text(AppTextDataCollection.radioAppBarText,
-              style: TextStyle(color: Colors.white)),
-        ),
+        // appBar: AppBar(
+        //   iconTheme: IconThemeData(color: Colors.white),
+        //   backgroundColor: ColorCollection.lightModeAppBarColor,
+        //   elevation: 0,
+        //   title: const Text(AppTextDataCollection.radioAppBarText,
+        //       style: TextStyle(color: Colors.white)),
+        // ),
         body: SizedBox(
           width: MediaQuery.of(context).size.width,
           height: MediaQuery.of(context).size.height,

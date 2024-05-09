@@ -133,6 +133,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
 
   // category of states news
   Future<void> getTopBarData() async {
+    isLoading = true;
     log('home news call ===>111111111111');
     String fileName = 'getTopBarData.json';
     var dir = await getTemporaryDirectory();
@@ -212,59 +213,59 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
         log('home news call ===>${e.toString()}');
       }
     }
-
-    // if (file.existsSync()) {
-    //   print("reading from the topbar data cache file");
-
-    //   final data = file.readAsStringSync();
-    //   final res = jsonDecode(data);
-
-    //   topBarData = res;
-    // }
-
-    // try {
-    //   final result = await InternetAddress.lookup('www.google.com');
-
-    //   if (result.isNotEmpty && result[0].rawAddress.isNotEmpty) {
-    //     print('Internet connected');
-    //     // print(result[0].rawAddress);
-    //     String fileName = 'getTopBarData.json';
-    //     var dir = await getTemporaryDirectory();
-
-    //     File file = File(dir.path + "/" + fileName);
-    //     print("reading from internet");
-    //     //final url = "http://5.161.78.72/api/home_top_bar_news_category";
-    //     final url =
-    //         "http://5.161.78.72/api/home_top_bar_news_category?st_id=$state_id";
-    //     final req = await http.get(Uri.parse(url));
-
-    //     if (req.statusCode == 200) {
-    //       final body = req.body;
-    //       print(body);
-    //       file.writeAsStringSync(body, flush: true, mode: FileMode.write);
-    //       final res = jsonDecode(body);
-
-    //       topBarData = res;
-    //     } else {}
-    //   }
-    // } on SocketException catch (_) {
-    //   print('not connected top data');
-    // }
-
-    // var request = http.Request('GET',
-    //     Uri.parse('http://5.161.78.72/api/home_top_bar_news_category'));
-    //
-    // http.StreamedResponse response = await request.send();
-    //
-    // if (response.statusCode == 200) {
-    //   var res = jsonDecode(await response.stream.bytesToString());
-    //   setState(() {
-    //     topBarData = res;
-    //   });
-    // } else {
-    //   print(response.reasonPhrase);
-    // }
+    isLoading = false;
   }
+  // if (file.existsSync()) {
+  //   print("reading from the topbar data cache file");
+
+  //   final data = file.readAsStringSync();
+  //   final res = jsonDecode(data);
+
+  //   topBarData = res;
+  // }
+
+  // try {
+  //   final result = await InternetAddress.lookup('www.google.com');
+
+  //   if (result.isNotEmpty && result[0].rawAddress.isNotEmpty) {
+  //     print('Internet connected');
+  //     // print(result[0].rawAddress);
+  //     String fileName = 'getTopBarData.json';
+  //     var dir = await getTemporaryDirectory();
+
+  //     File file = File(dir.path + "/" + fileName);
+  //     print("reading from internet");
+  //     //final url = "http://5.161.78.72/api/home_top_bar_news_category";
+  //     final url =
+  //         "http://5.161.78.72/api/home_top_bar_news_category?st_id=$state_id";
+  //     final req = await http.get(Uri.parse(url));
+
+  //     if (req.statusCode == 200) {
+  //       final body = req.body;
+  //       print(body);
+  //       file.writeAsStringSync(body, flush: true, mode: FileMode.write);
+  //       final res = jsonDecode(body);
+
+  //       topBarData = res;
+  //     } else {}
+  //   }
+  // } on SocketException catch (_) {
+  //   print('not connected top data');
+  // }
+
+  // var request = http.Request('GET',
+  //     Uri.parse('http://5.161.78.72/api/home_top_bar_news_category'));
+  //
+  // http.StreamedResponse response = await request.send();
+  //
+  // if (response.statusCode == 200) {
+  //   var res = jsonDecode(await response.stream.bytesToString());
+  //   setState(() {
+  //     topBarData = res;
+  //   });
+  // } else {
+  //   print(response.reasonPhrase);
+  // }
 
 // var request = http.Request('GET', Uri.parse('http://5.161.78.72/api/get_news_world'));
 
@@ -1436,130 +1437,131 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
           log('on refresh call start');
           getInfo();
         },
-        child: ListView(
-          shrinkWrap: true,
-          physics: BouncingScrollPhysics(),
-          children: [
-            Container(
-              width: width,
-              height: height,
-              color: !(currentTheme == themeMode.darkMode)
-                  ? Colors.white
-                  : Colors.black,
-              child: Padding(
-                padding: const EdgeInsets.only(
-                  bottom: 125,
-                ),
-                child: PageView.builder(
-                  controller: Provider.of<HomePageIndexProvider>(context)
-                      .pagecontroller,
-                  onPageChanged: (value) {
-                    print(value.toString() + " dsadasd");
-                    if (Provider.of<HomePageIndexProvider>(context,
-                                listen: false)
-                            .pageIndex <
-                        value) {
-                      topbarCoontroller.animateTo(
-                        topbarCoontroller.offset + width * 0.2,
-                        duration: Duration(seconds: 2),
-                        curve: Curves.easeIn,
-                      );
-                    } else if (Provider.of<HomePageIndexProvider>(context,
-                                listen: false)
-                            .pageIndex >
-                        value) {
-                      topbarCoontroller.animateTo(
-                        topbarCoontroller.offset - width * 0.2,
-                        duration: Duration(seconds: 1),
-                        curve: Curves.easeIn,
-                      );
-                    }
+        child:  ListView(
+                shrinkWrap: true,
+                physics: BouncingScrollPhysics(),
+                children: [
+                  Container(
+                    width: width,
+                    height: height,
+                    color: !(currentTheme == themeMode.darkMode)
+                        ? Colors.white
+                        : Colors.black,
+                    child: Padding(
+                      padding: const EdgeInsets.only(
+                        bottom: 125,
+                      ),
+                      child: PageView.builder(
+                        controller: Provider.of<HomePageIndexProvider>(context)
+                            .pagecontroller,
+                        onPageChanged: (value) {
+                          print(value.toString() + " dsadasd");
+                          if (Provider.of<HomePageIndexProvider>(context,
+                                      listen: false)
+                                  .pageIndex <
+                              value) {
+                            topbarCoontroller.animateTo(
+                              topbarCoontroller.offset + width * 0.2,
+                              duration: Duration(seconds: 2),
+                              curve: Curves.easeIn,
+                            );
+                          } else if (Provider.of<HomePageIndexProvider>(context,
+                                      listen: false)
+                                  .pageIndex >
+                              value) {
+                            topbarCoontroller.animateTo(
+                              topbarCoontroller.offset - width * 0.2,
+                              duration: Duration(seconds: 1),
+                              curve: Curves.easeIn,
+                            );
+                          }
 
-                    Provider.of<HomePageIndexProvider>(context, listen: false)
-                        .onlychangeIndex(value);
-                    setState(() {
-                      topBarIndex = value == 0 ? value : value - 1;
-                    });
-                  },
-                  // physics: BouncingScrollPhysics(),
-                  itemCount: topBarData.length + 1,
-                  itemBuilder: (context, int pageindex) {
-                    try {
-                      if (pageindex - 1 == -1) {
-                        Future.delayed(Duration(milliseconds: 2000));
-                      }
-                      if (Provider.of<HomePageIndexProvider>(context)
-                              .pageIndex ==
-                          0) {
-                        return TopNews();
-                      } else if (pageindex == 0) {
-                        return TopBarCategory(
-                            cpId: topBarData[lastHomeIndex - 1]["cp_id"]);
-                      } else {
-                        lastHomeIndex = pageindex;
-                        return TopBarCategory(
-                            cpId: topBarData[pageindex - 1]["cp_id"]);
-                      }
-                    } catch (e) {
-                      print(e);
-                    }
-                    return TopNews();
+                          Provider.of<HomePageIndexProvider>(context,
+                                  listen: false)
+                              .onlychangeIndex(value);
+                          setState(() {
+                            topBarIndex = value == 0 ? value : value - 1;
+                          });
+                        },
+                        // physics: BouncingScrollPhysics(),
+                        itemCount: topBarData.length + 1,
+                        itemBuilder: (context, int pageindex) {
+                          try {
+                            if (pageindex - 1 == -1) {
+                              Future.delayed(Duration(milliseconds: 2000));
+                            }
+                            if (Provider.of<HomePageIndexProvider>(context)
+                                    .pageIndex ==
+                                0) {
+                              return TopNews();
+                            } else if (pageindex == 0) {
+                              return TopBarCategory(
+                                  cpId: topBarData[lastHomeIndex - 1]["cp_id"]);
+                            } else {
+                              lastHomeIndex = pageindex;
+                              return TopBarCategory(
+                                  cpId: topBarData[pageindex - 1]["cp_id"]);
+                            }
+                          } catch (e) {
+                            print(e);
+                          }
+                          return TopNews();
 
-                    // Provider.of<HomePageIndexProvider>(context)
-                    //               .pageIndex ==
-                    //           0 &&
-                    //       pageindex == 0
-                    //   ? TopNews(_scrollController)
-                    //   :
-                  },
-                ),
+                          // Provider.of<HomePageIndexProvider>(context)
+                          //               .pageIndex ==
+                          //           0 &&
+                          //       pageindex == 0
+                          //   ? TopNews(_scrollController)
+                          //   :
+                        },
+                      ),
+                    ),
+                  ),
+                  // Container(
+                  //   width: width,
+                  //   height: height * 0.9,
+                  //   color: !(currentTheme == themeMode.darkMode) ? Colors.white : Colors.black,
+                  //   child: PageView.builder(
+                  //       controller: Provider.of<HomePageIndexProvider>(context)
+                  //           .pagecontroller,
+                  //       onPageChanged: (value) {
+                  //         if (Provider.of<HomePageIndexProvider>(context,
+                  //                     listen: false)
+                  //                 .pageIndex <
+                  //             value) {
+                  //           topbarCoontroller.animateTo(
+                  //               topbarCoontroller.offset + width * 0.2,
+                  //               duration: Duration(seconds: 1),
+                  //               curve: Curves.easeIn);
+                  //         } else if (Provider.of<HomePageIndexProvider>(context,
+                  //                     listen: false)
+                  //                 .pageIndex >
+                  //             value) {
+                  //           topbarCoontroller.animateTo(
+                  //               topbarCoontroller.offset - width * 0.2,
+                  //               duration: Duration(seconds: 1),
+                  //               curve: Curves.easeIn);
+                  //         }
+
+                  //         Provider.of<HomePageIndexProvider>(context, listen: false)
+                  //             .onlychangeIndex(value);
+                  //         setState(() {
+                  //           topBarIndex = value == 0 ? value : value - 1;
+                  //         });
+                  //       },
+                  //       physics: ScrollPhysics(),
+                  //       itemCount: topBarData.length + 1,
+                  //       itemBuilder: (context, int pageindex) {
+                  //         return Provider.of<HomePageIndexProvider>(context)
+                  //                     .pageIndex ==
+                  //                 0
+                  //             ? TopNews(_scrollController)
+                  //             : TopBarCategory(_scrollController,
+                  //                 cpId: topBarData[pageindex - 1]["cp_id"]);
+                  //       }),
+                  // ),
+                ],
               ),
-            ),
-            // Container(
-            //   width: width,
-            //   height: height * 0.9,
-            //   color: !(currentTheme == themeMode.darkMode) ? Colors.white : Colors.black,
-            //   child: PageView.builder(
-            //       controller: Provider.of<HomePageIndexProvider>(context)
-            //           .pagecontroller,
-            //       onPageChanged: (value) {
-            //         if (Provider.of<HomePageIndexProvider>(context,
-            //                     listen: false)
-            //                 .pageIndex <
-            //             value) {
-            //           topbarCoontroller.animateTo(
-            //               topbarCoontroller.offset + width * 0.2,
-            //               duration: Duration(seconds: 1),
-            //               curve: Curves.easeIn);
-            //         } else if (Provider.of<HomePageIndexProvider>(context,
-            //                     listen: false)
-            //                 .pageIndex >
-            //             value) {
-            //           topbarCoontroller.animateTo(
-            //               topbarCoontroller.offset - width * 0.2,
-            //               duration: Duration(seconds: 1),
-            //               curve: Curves.easeIn);
-            //         }
-
-            //         Provider.of<HomePageIndexProvider>(context, listen: false)
-            //             .onlychangeIndex(value);
-            //         setState(() {
-            //           topBarIndex = value == 0 ? value : value - 1;
-            //         });
-            //       },
-            //       physics: ScrollPhysics(),
-            //       itemCount: topBarData.length + 1,
-            //       itemBuilder: (context, int pageindex) {
-            //         return Provider.of<HomePageIndexProvider>(context)
-            //                     .pageIndex ==
-            //                 0
-            //             ? TopNews(_scrollController)
-            //             : TopBarCategory(_scrollController,
-            //                 cpId: topBarData[pageindex - 1]["cp_id"]);
-            //       }),
-            // ),
-          ],
-        ),
       );
     }
 
@@ -1672,41 +1674,14 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
 
     List<Widget> _pages = <Widget>[
       Home(),
-      MeraSheher(),
       AnyaRajya(),
+      LiveTVScreen(),
+      RadioScreen(),
+      MeraSheher(),
       // TrendingScreen(),
-      World(),
+      // World(),
     ];
 
-    // void _onItem(int index) {
-    //   setState(() {
-    //     // changePage(index);
-    //     lastPage = this._index;
-    //     this._index = index;
-    //   });
-    // }
-
-    ///sliver app bar
-    // final circularMenu = CircularMenu(items: [
-    //   CircularMenuItem(
-    //       icon: Icons.tv,
-    //       onTap: () {
-    //         Navigator.push(context,
-    //             MaterialPageRoute(builder: (context) => LiveTVScreen()));
-    //       }),
-    //   CircularMenuItem(
-    //       icon: Icons.radio,
-    //       onTap: () {
-    //         Navigator.push(context,
-    //             MaterialPageRoute(builder: (context) => RadioScreen()));
-    //       }),
-    // ]);
-    final iconList = <IconData>[
-      Icons.home,
-      Icons.location_pin,
-      Icons.map,
-      Icons.bakery_dining_outlined,
-    ];
     // List<TabItem> tabItems = List.of([
     //   TabItem(Icons.home, "होम", Colors.blue[900]!,
     //       labelStyle: TextStyle(fontWeight: FontWeight.bold)),
@@ -1725,43 +1700,43 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
       key: _scaffoldKey,
       backgroundColor:
           !(currentTheme == themeMode.darkMode) ? Colors.white : Colors.black,
-      floatingActionButton: CircularMenu(
-        alignment: Alignment.bottomCenter,
-        radius: 60,
-        toggleButtonBoxShadow: [BoxShadow(color: Colors.transparent)],
-        toggleButtonColor: Colors.blue[900],
-        toggleButtonIconColor: Colors.white,
-        toggleButtonAnimatedIconData: AnimatedIcons.menu_close,
-        items: [
-          CircularMenuItem(
-              icon: Icons.tv,
-              color: Colors.blue[900],
-              boxShadow: [],
-              onTap: () {
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => LiveTVScreen()));
-              }),
-          CircularMenuItem(
-              icon: Icons.local_fire_department_outlined,
-              color: Colors.blue[900],
-              boxShadow: [],
-              enableBadge: false,
-              onTap: () {
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => TrendingScreen()));
-              }),
-          CircularMenuItem(
-              icon: Icons.radio,
-              color: Colors.blue[900],
-              boxShadow: [],
-              enableBadge: false,
-              onTap: () {
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => RadioScreen()));
-              }),
-        ],
-      ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+      // floatingActionButton: CircularMenu(
+      //   alignment: Alignment.bottomCenter,
+      //   radius: 60,
+      //   toggleButtonBoxShadow: [BoxShadow(color: Colors.transparent)],
+      //   toggleButtonColor: Colors.blue[900],
+      //   toggleButtonIconColor: Colors.white,
+      //   toggleButtonAnimatedIconData: AnimatedIcons.menu_close,
+      //   items: [
+      //     CircularMenuItem(
+      //         icon: Icons.tv,
+      //         color: Colors.blue[900],
+      //         boxShadow: [],
+      //         onTap: () {
+      //           Navigator.push(context,
+      //               MaterialPageRoute(builder: (context) => LiveTVScreen()));
+      //         }),
+      //     CircularMenuItem(
+      //         icon: Icons.local_fire_department_outlined,
+      //         color: Colors.blue[900],
+      //         boxShadow: [],
+      //         enableBadge: false,
+      //         onTap: () {
+      //           Navigator.push(context,
+      //               MaterialPageRoute(builder: (context) => TrendingScreen()));
+      //         }),
+      //     CircularMenuItem(
+      //         icon: Icons.radio,
+      //         color: Colors.blue[900],
+      //         boxShadow: [],
+      //         enableBadge: false,
+      //         onTap: () {
+      //           Navigator.push(context,
+      //               MaterialPageRoute(builder: (context) => RadioScreen()));
+      //         }),
+      //   ],
+      // ),
+      // floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       bottomNavigationBar: Container(
         height: 55,
         decoration: BoxDecoration(
@@ -1774,172 +1749,51 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
           children: [
             _bottomNavigationBarItem(
                 iconSrc: ImageDataCollection.homeIcon,
-                label: "   होम   ",
+                label: "होम",
                 tabIndex: 0,
                 onTap: () =>
                     Provider.of<HomePageIndexProvider>(context, listen: false)
                         .changeTabIndex(0)),
+
             _bottomNavigationBarItem(
-                iconSrc: ImageDataCollection.myCityICon,
-                label: "मेरा शहर",
+                iconSrc: ImageDataCollection.otherStateIcon,
+                label: "अन्य राज्य",
                 tabIndex: 1,
                 onTap: () =>
                     Provider.of<HomePageIndexProvider>(context, listen: false)
                         .changeTabIndex(1)),
-            SizedBox(
-              width: 30,
-            ),
             _bottomNavigationBarItem(
-                iconSrc: ImageDataCollection.otherStateIcon,
-                label: "अन्य राज्य",
+                iconSrc: ImageDataCollection.liveNewsIcon,
+                label: "लाइव न्यूज",
                 tabIndex: 2,
                 onTap: () =>
                     Provider.of<HomePageIndexProvider>(context, listen: false)
                         .changeTabIndex(2)),
             _bottomNavigationBarItem(
-                iconSrc: ImageDataCollection.worldNewsIcon,
-                label: "न्यूज वर्ल्ड",
+                iconSrc: ImageDataCollection.radioIcon,
+                label: "रेडियो",
                 tabIndex: 3,
                 onTap: () =>
                     Provider.of<HomePageIndexProvider>(context, listen: false)
                         .changeTabIndex(3)),
+            _bottomNavigationBarItem(
+                iconSrc: ImageDataCollection.myCityICon,
+                label: "मेरा शहर",
+                tabIndex: 4,
+                onTap: () =>
+                    Provider.of<HomePageIndexProvider>(context, listen: false)
+                        .changeTabIndex(4)),
+            // _bottomNavigationBarItem(
+            //     iconSrc: ImageDataCollection.worldNewsIcon,
+            //     label: "न्यूज वर्ल्ड",
+            //     tabIndex: 4,
+            //     onTap: () =>
+            //         Provider.of<HomePageIndexProvider>(context, listen: false)
+            //             .changeTabIndex(4)),
           ],
         ),
       ),
 
-      //  AnimatedBottomNavigationBar(
-      //     icons: iconList,
-      //     blurEffect: true,
-      //     activeIndex: _tabIndex,
-      //     elevation: 0,
-      //     inactiveColor: Colors.grey,
-      //     backgroundColor: !(currentTheme == themeMode.darkMode)
-      //         ? Colors.white
-      //         : Colors.black,
-      //     activeColor: Colors.blue[900],
-      //     gapLocation: GapLocation.center,
-      //     notchSmoothness: NotchSmoothness.verySmoothEdge,
-      //     leftCornerRadius: 0,
-      //     rightCornerRadius: 0,
-
-      //     onTap: (index) {
-      //       Provider.of<HomePageIndexProvider>(context, listen: false)
-      //           .changeTabIndex(index);
-      //       if (_isMenuOpen) {
-      //         _toggleMenu();
-      //       }
-      //       //other params
-      //     }),
-      // bottomSheet: Container(
-      //   color: Colors.white,
-      //   child: CircularBottomNavigation(
-      //     tabItems,
-      //     circleSize: 48,
-      //     iconsSize: 28,
-      //     barHeight: 55,
-      //     controller: _navigationController,
-      //     selectedCallback: (selectedPos) {
-      //       Provider.of<HomePageIndexProvider>(context, listen: false)
-      //           .changeTabIndex(selectedPos!);
-      //       // setState(() {
-      //       //   _index = selectedPos!;
-      //       // });
-      //     },
-      //   ),
-      // ),
-
-      // ValueListenableBuilder<bool>(
-      //     valueListenable: showNavBarValue,
-      //     builder: (context, showNav, _) => Container(
-      //           height: 63,
-      //           width: MediaQuery.of(context).size.width,
-      //           child: !showNav
-      //               ? SizedBox(
-      //                   height: 0,
-      //                 )
-      //               : Column(
-      //                   children: [
-      //                     // if (_isBannerAdReady)
-      //                     //   Container(
-      //                     //     height: 60,
-      //                     //     width: MediaQuery.of(context).size.width,
-      //                     //     child: AdWidget(ad: _bannerAd),
-      //                     //   ),
-      //                     BottomNavigationBar(
-      //                       backgroundColor:
-      //                           !(currentTheme == themeMode.darkMode)
-      //                               ? Colors.white
-      //                               : Colors.black,
-      //                       currentIndex: _index,
-      //                       iconSize: 26,
-      //                       onTap: _onItem,
-      //                       unselectedItemColor:
-      //                           !(currentTheme == themeMode.darkMode)
-      //                               ? Colors.black
-      //                               : Colors.grey,
-      //                       selectedItemColor: Colors.blue[900],
-      //                       type: BottomNavigationBarType.fixed,
-      //                       elevation: 10,
-      //                       items: [
-      //                         BottomNavigationBarItem(
-      //                           icon: Image.asset(
-      //                             ImageDataCollection.homeIcon,
-      //                             scale: 20,
-      //                             // color: !(currentTheme == themeMode.darkMode)
-      //                             //     ? Colors.black
-      //                             //     : Colors.grey,
-      //                           ),
-      //                           label: "होम",
-      //                         ),
-      //                         BottomNavigationBarItem(
-      //                           icon: Image.asset(
-      //                             ImageDataCollection.myCityICon,
-      //                             scale: 20,
-      //                             // color: !(currentTheme == themeMode.darkMode)
-      //                             //     ? Colors.black
-      //                             //     : Colors.grey,
-      //                           ),
-      //                           label: "मेरा शहर",
-      //                         ),
-      //                         BottomNavigationBarItem(
-      //                             icon: Image.asset(
-      //                               ImageDataCollection.otherStateIcon,
-      //                               scale: 20,
-      //                               color: !(currentTheme == themeMode.darkMode)
-      //                                   ? Colors.black
-      //                                   : Colors.grey,
-      //                             ),
-      //                             // Icon(
-      //                             //   Icons.map,
-      //                             //   // color: !(currentTheme == themeMode.darkMode)
-      //                             //   //     ? Colors.blue[900]
-      //                             //   //     : Colors.white,
-      //                             // ),
-      //                             label: "अन्य राज्य"),
-      //                         BottomNavigationBarItem(
-      //                             icon: Image.asset(
-      //                               ImageDataCollection.trendigNews,
-      //                               scale: 20,
-      //                               // color: !(currentTheme == themeMode.darkMode)
-      //                               //     ? Colors.black
-      //                               //     : Colors.grey,
-      //                             ),
-      //                             label: "ट्रेंडिंग"),
-      //                         BottomNavigationBarItem(
-      //                           icon: Image.asset(
-      //                             ImageDataCollection.worldNewsIcon,
-      //                             scale: 20,
-      //                             // color: !(currentTheme == themeMode.darkMode)
-      //                             //     ? Colors.black
-      //                             //     : Colors.grey,
-      //                           ),
-      //                           label: "न्यूज वर्ल्ड",
-      //                         )
-      //                       ],
-      //                     ),
-      //                   ],
-      //                 ),
-      //         )),
       appBar: AppBar(
           iconTheme: IconThemeData(color: Colors.white),
           backgroundColor: Colors.blue[900],
@@ -1947,12 +1801,14 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
             builder: (context, value, child) {
               return heading(
                   text: value.tabIndex == 1
-                      ? 'मेरा शहर'
+                      ? 'अन्य राज्य'
                       : value.tabIndex == 2
-                          ? 'अन्य राज्य'
+                          ? "लाइव न्यूज"
                           : value.tabIndex == 3
-                              ? "न्यूज वर्ल्ड"
-                              : "City News",
+                              ? "रेडियो"
+                              : value.tabIndex == 4
+                                  ? "मेरा शहर"
+                                  : "City News",
                   color: Colors.white);
             },
           ),
@@ -1970,13 +1826,15 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                   Icons.search,
                 )),
             SizedBox(width: 10),
-            // GestureDetector(
-            //     onTap: () {
-            //       Navigator.push(context,
-            //           MaterialPageRoute(builder: (context) => LiveTVScreen()));
-            //     },
-            //     child: Icon(Icons.tv)),
-            // SizedBox(width: 10),
+            GestureDetector(
+                onTap: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => TrendingScreen()));
+                },
+                child: Icon(Icons.local_fire_department_outlined)),
+            SizedBox(width: 10),
             // GestureDetector(
             //     onTap: () {
             //       Navigator.push(context,
@@ -1993,10 +1851,10 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
             SizedBox(width: 10),
             // Icon(Icons.notifications),
           ],
-          bottom: _tabIndex == 0 || _tabIndex == 2 || _tabIndex == 3
+          bottom: _tabIndex == 0 || _tabIndex == 1
               ? PreferredSize(
                   preferredSize: Size.fromHeight(35),
-                  child: _tabIndex == 2
+                  child: _tabIndex == 1
                       ? numberOfStates <= 0
                           ? Container()
                           : Container(
@@ -2072,7 +1930,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                     //
                                   }),
                             )
-                      : _tabIndex == 3
+                      : _tabIndex == 4
                           ? Container(
                               color: Colors.blue[900],
                               height: height * 0.05,
@@ -2999,35 +2857,41 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
       required String label,
       required int tabIndex,
       required Function() onTap}) {
-    final currentTheme = Provider.of<ThemeChanger>(context).getTheme();
-    final themeMode = ThemeModeTypes();
+    // final currentTheme = Provider.of<ThemeChanger>(context).getTheme();
+    // final themeMode = ThemeModeTypes();
     return GestureDetector(
       onTap: onTap,
       child: Padding(
-        padding:
-            EdgeInsets.only(left: tabIndex == 2 ? 50 : 5, right: 5, top: 8),
+        padding: EdgeInsets.only(left: 5, right: 5, top: 8),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            Image.asset(
-              iconSrc,
-              scale: 23,
-              color: tabIndex == 2 && (currentTheme == themeMode.darkMode)
-                  ? Colors.white
-                  : null,
-            ),
+            Image.asset(iconSrc,
+                scale: 23,
+                color:
+                    Provider.of<HomePageIndexProvider>(context, listen: false)
+                                .tabIndex ==
+                            tabIndex
+                        ? Colors.blue[900]
+                        : Colors.black),
             Padding(
               padding: const EdgeInsets.only(top: 2),
               child: Text(
                 label,
                 style: TextStyle(
+                    fontWeight: Provider.of<HomePageIndexProvider>(context,
+                                    listen: false)
+                                .tabIndex ==
+                            tabIndex
+                        ? FontWeight.bold
+                        : FontWeight.normal,
                     color: Provider.of<HomePageIndexProvider>(context,
                                     listen: false)
                                 .tabIndex ==
                             tabIndex
                         ? Colors.blue[900]
-                        : Colors.grey),
+                        : Colors.black),
               ),
             ),
           ],
