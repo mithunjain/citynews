@@ -1,10 +1,11 @@
+// ignore_for_file: must_be_immutable
+
 import 'dart:developer';
 import 'dart:io';
 import 'dart:convert';
 import 'package:get/get.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:http/http.dart' as http;
-
 import 'package:news/dynamic_link.dart';
 import 'package:news/provider/anya_rajya_provider.dart';
 import 'package:news/provider/apna_ragya_provider.dart';
@@ -24,7 +25,6 @@ import 'package:news/type/types.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:toast/toast.dart';
 import 'package:firebase_core/firebase_core.dart';
 
 themeDataManagement() async {
@@ -237,9 +237,6 @@ class _MyAppsState extends State<MyApps> with WidgetsBindingObserver {
 
   @override
   void didChangeDependencies() {
-    print("DIDD CHANGEDDDDDDD");
-    //  initDynamicLink();
-    // TODO: implement didChangeDependencies
     super.didChangeDependencies();
   }
 

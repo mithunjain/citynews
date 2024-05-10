@@ -1,8 +1,6 @@
-import 'dart:convert';
+
 import 'dart:developer';
 import 'dart:io';
-
-import 'package:http/http.dart' as http;
 import 'package:news/provider/string.dart';
 import 'package:news/provider/theme_provider.dart';
 import 'package:news/screens/home_screen/home_screen.dart';
@@ -10,8 +8,6 @@ import 'package:flutter/material.dart';
 import 'package:news/type/types.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:provider/provider.dart';
-
-import 'anyaRajya.dart';
 
 // class StatesScreen extends StatefulWidget {
 //   StatesScreen(this.s, {Key? key}) : super(key: key);

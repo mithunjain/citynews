@@ -101,22 +101,24 @@ class _ApnaSheherState extends State<ApnaSheher> {
   Widget build(BuildContext context) {
     final currentTheme = Provider.of<ThemeChanger>(context).getTheme();
     final themeMode = ThemeModeTypes();
+    var controller =
+        Provider.of<ApnaSheherIndexProvider>(context).pagecontroller;
 
     return Scaffold(
+        backgroundColor:
+            !(currentTheme == themeMode.darkMode) ? Colors.white : Colors.black,
         appBar: AppBar(
           leading: IconButton(
               onPressed: () {
                 Navigator.pop(context, true);
                 Provider.of<ApnaSheherIndexProvider>(context, listen: false)
-                    .changePage(0);
+                    .onlychangeIndex(0);
               },
               icon: Icon(
                 Icons.arrow_back,
                 color: Colors.white,
               )),
-          backgroundColor: !(currentTheme == themeMode.darkMode)
-              ? Colors.blue[900]
-              : Colors.black,
+          backgroundColor: Colors.blue[900],
           title: heading(text: 'मेरा शहर', color: Colors.white),
           actions: [
             TextButton(
@@ -130,9 +132,10 @@ class _ApnaSheherState extends State<ApnaSheher> {
                   File file = File(dir.path + "/" + fileName);
                   file.writeAsStringSync(jsonEncode(tempDistrict),
                       flush: true, mode: FileMode.write);
-                  Navigator.pop(context, true);
+  Navigator.pop(context, true);
                   Provider.of<ApnaSheherIndexProvider>(context, listen: false)
                       .changePage(0);
+                
                   // Navigator.push(context, MaterialPageRoute(builder: (context)=>HomeScreen()));
                 },
                 child: Text(
@@ -142,250 +145,264 @@ class _ApnaSheherState extends State<ApnaSheher> {
                 ))
           ],
         ),
-        body: Container(
-          color: !(currentTheme == themeMode.darkMode)
-              ? Colors.white
-              : Colors.black,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Align(
-                alignment: Alignment(-1, 0),
-                child: Padding(
-                    padding: EdgeInsets.fromLTRB(10, 15, 0, 0),
+        body: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Container(
+            color: !(currentTheme == themeMode.darkMode)
+                ? Colors.white
+                : Colors.black,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Padding(
+                    padding: EdgeInsets.fromLTRB(10, 8, 0, 0),
                     child: Text(
-                      ' अपने पसंद के शहरों की खबरें पाने के लिए उन शहरों पर क्लिक करें।',
-                      style: TextStyle(color: Colors.red, fontSize: 18),
+                      'अपने पसंद के शहरों की खबरें पाने के लिए उन शहरों पर क्लिक करें।',
+                      style: TextStyle(
+                          color: (currentTheme == themeMode.darkMode)
+                              ? Colors.white
+                              : Colors.black,
+                          fontSize: 18),
                       textScaleFactor: 1.0,
                     )),
-              ),
-              Wrap(
-                spacing: 0,
-                children: [
-                  ...List.generate(
-                      tempDistrict.length,
-                      (index) => Container(
-                            child: Padding(
-                              padding: EdgeInsets.symmetric(
-                                  horizontal: 3, vertical: 0),
-                              child: Chip(
-                                onDeleted: index == 0
-                                    ? null
-                                    : () async {
-                                        tempDistrict.removeAt(index);
+                Wrap(
+                  spacing: 0,
+                  children: [
+                    ...List.generate(
+                        tempDistrict.length,
+                        (index) => Container(
+                              child: Padding(
+                                padding: EdgeInsets.symmetric(
+                                    horizontal: 3, vertical: 0),
+                                child: Chip(
+                                  onDeleted: () async {
+                                    tempDistrict.removeAt(index);
 
-                                        setState(() {});
-                                      },
-                                deleteIconColor:
-                                    index == 0 ? null : Colors.black,
-                                deleteIcon: index == 0
-                                    ? null
-                                    : Icon(
-                                        Icons.clear,
-                                        size: 15,
-                                      ),
-                                label: Text(tempDistrict[index]['title']),
+                                    setState(() {});
+                                  },
+                                  deleteIconColor: Colors.black,
+                                  deleteIcon: Icon(
+                                    Icons.clear,
+                                    size: 15,
+                                  ),
+                                  label: Text(tempDistrict[index]['title']),
+                                ),
                               ),
-                            ),
-                          ))
-                ],
-              ),
-              Padding(
-                padding: EdgeInsets.fromLTRB(3, 5, 3, 0),
-                child: TextFormField(
-                  textCapitalization: TextCapitalization.sentences,
-                  onChanged: (value) async {
-                    if (value.isNotEmpty) {
-                      await searchQuery(value);
-                      setState(() {});
-                    } else {
-                      print('this is been printed');
-                      setState(() {
-                        toShow = districtData;
-                      });
-                    }
-                  },
-                  maxLines: null,
-                  controller: textController,
-                  obscureText: false,
-                  decoration: InputDecoration(
-                    labelText: 'शहर/जिला सर्च करें।',
-                    labelStyle:
-                        TextStyle(color: Color(0xFF0D47A1), fontSize: 15),
-                    hintText: '',
-                    hintStyle: TextStyle(
+                            ))
+                  ],
+                ),
+                Padding(
+                  padding: EdgeInsets.fromLTRB(3, 5, 3, 0),
+                  child: TextFormField(
+                    textCapitalization: TextCapitalization.sentences,
+                    onChanged: (value) async {
+                      if (value.isNotEmpty) {
+                        await searchQuery(value);
+                        setState(() {});
+                      } else {
+                        print('this is been printed');
+                        setState(() {
+                          toShow = districtData;
+                        });
+                      }
+                    },
+                    maxLines: null,
+                    controller: textController,
+                    obscureText: false,
+                    decoration: InputDecoration(
+                      suffixIcon: Icon(
+                        Icons.search,
+                        color: Colors.grey,
+                      ),
+                      labelText: 'शहर/जिला सर्च करें।',
+                      labelStyle:
+                          TextStyle(color: Color(0xFF0D47A1), fontSize: 15),
+                      hintText: '',
+                      hintStyle: TextStyle(
+                        fontFamily: 'Poppins',
+                        color: Color(0xFF303030),
+                        fontSize: 14,
+                      ),
+                      enabledBorder: OutlineInputBorder(
+                        borderSide: BorderSide(
+                          color: (currentTheme == themeMode.darkMode)
+                              ? Colors.white
+                              : Colors.grey,
+                          width: 2,
+                        ),
+                        borderRadius: BorderRadius.circular(5),
+                      ),
+                      focusedBorder: OutlineInputBorder(
+                        borderSide: BorderSide(
+                          color: Color(0xFF0D47A1),
+                          width: 2,
+                        ),
+                        borderRadius: BorderRadius.circular(5),
+                      ),
+                      filled: true,
+                      fillColor: Colors.white,
+                      contentPadding:
+                          EdgeInsetsDirectional.fromSTEB(5, 5, 5, 5),
+                    ),
+                    style: TextStyle(
                       fontFamily: 'Poppins',
                       color: Color(0xFF303030),
                       fontSize: 14,
                     ),
-                    enabledBorder: OutlineInputBorder(
-                      borderSide: BorderSide(
-                        color: (currentTheme == themeMode.darkMode)
-                            ? Colors.white
-                            : Colors.black,
-                        width: 2,
-                      ),
-                      borderRadius: BorderRadius.circular(0),
-                    ),
-                    focusedBorder: OutlineInputBorder(
-                      borderSide: BorderSide(
-                        color: Color(0xFF0D47A1),
-                        width: 2,
-                      ),
-                      borderRadius: BorderRadius.circular(0),
-                    ),
-                    filled: true,
-                    fillColor: Colors.white,
-                    contentPadding: EdgeInsetsDirectional.fromSTEB(5, 5, 5, 5),
+                    textAlign: TextAlign.start,
                   ),
-                  style: TextStyle(
-                    fontFamily: 'Poppins',
-                    color: Color(0xFF303030),
-                    fontSize: 14,
-                  ),
-                  textAlign: TextAlign.start,
                 ),
-              ),
-              toShow.isEmpty
-                  ? SizedBox()
-                  : Expanded(
-                      child: SingleChildScrollView(
-                        child: GridView.builder(
-                            shrinkWrap: true,
-                            physics: ClampingScrollPhysics(),
-                            gridDelegate:
-                                const SliverGridDelegateWithMaxCrossAxisExtent(
-                                    mainAxisExtent: 60,
-                                    maxCrossAxisExtent: 140,
-                                    childAspectRatio: 3 / 2,
-                                    crossAxisSpacing: 5,
-                                    mainAxisSpacing: 2),
-                            itemCount: toShow.length,
-                            itemBuilder: (context, index) {
-                              return Padding(
-                                padding: EdgeInsets.symmetric(
-                                    vertical: 5, horizontal: 3),
-                                child: GestureDetector(
-                                  onTap: () async {
-                                    bool alreadyExist = false;
-                                    for (int i = 0;
-                                        i < tempDistrict.length;
-                                        i++) {
-                                      if (tempDistrict[i]['did'].toString() ==
-                                          toShow[index]['did'].toString()) {
-                                        alreadyExist = true;
+                toShow.isEmpty
+                    ? SizedBox()
+                    : Expanded(
+                        child: SingleChildScrollView(
+                          child: GridView.builder(
+                              shrinkWrap: true,
+                              physics: ClampingScrollPhysics(),
+                              gridDelegate:
+                                  const SliverGridDelegateWithMaxCrossAxisExtent(
+                                      mainAxisExtent: 60,
+                                      maxCrossAxisExtent: 140,
+                                      childAspectRatio: 3 / 2,
+                                      crossAxisSpacing: 5,
+                                      mainAxisSpacing: 2),
+                              itemCount: toShow.length,
+                              itemBuilder: (context, index) {
+                                return Padding(
+                                  padding: EdgeInsets.symmetric(
+                                      vertical: 5, horizontal: 3),
+                                  child: GestureDetector(
+                                    onTap: () async {
+                                      bool alreadyExist = false;
+                                      for (int i = 0;
+                                          i < tempDistrict.length;
+                                          i++) {
+                                        if (tempDistrict[i]['did'].toString() ==
+                                            toShow[index]['did'].toString()) {
+                                          alreadyExist = true;
+                                        }
                                       }
-                                    }
 
-                                    if (!alreadyExist) {
-                                      print('this is $scrollingDistrict');
-                                      tempDistrict.add(toShow[index]);
-                                      // if (scrollingDistrict.isEmpty) {
-                                      //   print('new scrolling added');
-                                      //   final url =
-                                      //       "http://5.161.78.72/api/get_latest_news_by_district?page=1&did=${toShow[index]['did']}";
-                                      //   // print("get home news reading from internet FILE EXIST and DATA is [] for anya rajgya");
-                                      //   final req =
-                                      //       await http.get(Uri.parse(url));
-                                      //   final body = req.body;
-                                      //   scrollingDistrict = jsonDecode(body);
-                                      //   String fileName =
-                                      //       'district_scroll.json';
-                                      //   var dir = await getTemporaryDirectory();
-                                      //   File file =
-                                      //       File(dir.path + "/" + fileName);
-                                      //   file.writeAsStringSync(
-                                      //       jsonEncode(scrollingDistrict));
-                                      // }
-                                      // fromHomemeraSheherChange = 0;
-                                      setState(() {});
-                                    }
-                                  },
-                                  child: Container(
-                                    decoration: BoxDecoration(
-                                        color: convertColor(
-                                            toShow[index]['bg_color_code']),
-                                        borderRadius:
-                                            BorderRadius.circular(10)),
-                                    child: Center(
-                                        child: Text(
-                                      toShow[index]['title'].toString(),
-                                      style: TextStyle(
-                                          fontSize: 18, color: Colors.white),
-                                    )),
+                                      if (!alreadyExist) {
+                                        print('this is $scrollingDistrict');
+                                        tempDistrict.add(toShow[index]);
+                                        // if (scrollingDistrict.isEmpty) {
+                                        //   print('new scrolling added');
+                                        //   final url =
+                                        //       "http://5.161.78.72/api/get_latest_news_by_district?page=1&did=${toShow[index]['did']}";
+                                        //   // print("get home news reading from internet FILE EXIST and DATA is [] for anya rajgya");
+                                        //   final req =
+                                        //       await http.get(Uri.parse(url));
+                                        //   final body = req.body;
+                                        //   scrollingDistrict = jsonDecode(body);
+                                        //   String fileName =
+                                        //       'district_scroll.json';
+                                        //   var dir = await getTemporaryDirectory();
+                                        //   File file =
+                                        //       File(dir.path + "/" + fileName);
+                                        //   file.writeAsStringSync(
+                                        //       jsonEncode(scrollingDistrict));
+                                        // }
+                                        // fromHomemeraSheherChange = 0;
+                                        setState(() {});
+                                      }
+                                    },
+                                    child: Container(
+                                      decoration: BoxDecoration(
+                                          boxShadow: [
+                                            BoxShadow(
+                                              color: Colors.black.withOpacity(
+                                                  0.3), // Shadow color with some transparency
+                                              spreadRadius: 1, // Spread radius
+                                              blurRadius: 6, // Blur radius
+                                              offset: Offset(0,
+                                                  3), // changes position of shadow
+                                            ),
+                                          ],
+                                          color: convertColor(
+                                              toShow[index]['bg_color_code']),
+                                          borderRadius:
+                                              BorderRadius.circular(5)),
+                                      child: Center(
+                                          child: Text(
+                                        toShow[index]['title'].toString(),
+                                        style: TextStyle(
+                                            fontSize: 18, color: Colors.white),
+                                      )),
+                                    ),
                                   ),
-                                ),
-                              );
-                            }),
-                      ),
-                    )
-              // FutureBuilder(
-              //   future: getInfo(),
-              //   builder: (context, AsyncSnapshot snapshot){
-              //     if (snapshot.data==null)
-              //     {
-              //       return Center(child: LinearProgressIndicator());
-              //     }
-              //     else
-              //     {
-              //       // return ListView.builder(
-              //       //   shrinkWrap: true,
-              //       //   physics: ClampingScrollPhysics(),
-              //       //   scrollDirection:Axis.vertical,
-              //       //   itemCount:toShow.length,
-              //       //   itemBuilder: (context,index)
-              //       //   {
-              //       //     return Container(
-              //       //       color: convertColor(toShow[index]['bg_color_code']),
-              //       //       child: Text(toShow[index]['did'].toString()),
-              //       //     );
-              //       //   },
-              //       // );
-              //       return GridView.builder(
-              //           shrinkWrap: true,
-              //           physics: ClampingScrollPhysics(),
-              //           gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
-              //
-              //               maxCrossAxisExtent: 140,
-              //               childAspectRatio: 3 / 2,
-              //               crossAxisSpacing: 5,
-              //               mainAxisSpacing: 0),
-              //           itemCount: toShow.length,
-              //           itemBuilder: (context, index) {
-              //             return Padding(
-              //               padding: EdgeInsets.symmetric(vertical: 5,horizontal: 3),
-              //               child: GestureDetector(
-              //                 onTap: () async
-              //                 {
-              //                   addedDistrict.add(toShow[index]);
-              //                   String fileName = 'district_added.json';
-              //                   var dir = await getTemporaryDirectory();
-              //                   File file = File(dir.path + "/" + fileName);
-              //                   file.writeAsStringSync(jsonEncode(addedDistrict));
-              //                   setState(() {
-              //
-              //                   });
-              //                 },
-              //                 child: Container(
-              //                   decoration: BoxDecoration(
-              //                       color: convertColor(toShow[index]['bg_color_code']),
-              //                       borderRadius: BorderRadius.circular(10)
-              //                   ),
-              //                   child: Center(child:
-              //                   Text(toShow[index]['title_in_english'].toString(),
-              //                     style: TextStyle(
-              //                       fontSize: 16,
-              //                         color: Colors.white
-              //                     ),
-              //                   )),
-              //                 ),
-              //               ),
-              //             );
-              //           });
-              //     }
-              //   },
-              // )
-            ],
+                                );
+                              }),
+                        ),
+                      )
+                // FutureBuilder(
+                //   future: getInfo(),
+                //   builder: (context, AsyncSnapshot snapshot){
+                //     if (snapshot.data==null)
+                //     {
+                //       return Center(child: LinearProgressIndicator());
+                //     }
+                //     else
+                //     {
+                //       // return ListView.builder(
+                //       //   shrinkWrap: true,
+                //       //   physics: ClampingScrollPhysics(),
+                //       //   scrollDirection:Axis.vertical,
+                //       //   itemCount:toShow.length,
+                //       //   itemBuilder: (context,index)
+                //       //   {
+                //       //     return Container(
+                //       //       color: convertColor(toShow[index]['bg_color_code']),
+                //       //       child: Text(toShow[index]['did'].toString()),
+                //       //     );
+                //       //   },
+                //       // );
+                //       return GridView.builder(
+                //           shrinkWrap: true,
+                //           physics: ClampingScrollPhysics(),
+                //           gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
+                //
+                //               maxCrossAxisExtent: 140,
+                //               childAspectRatio: 3 / 2,
+                //               crossAxisSpacing: 5,
+                //               mainAxisSpacing: 0),
+                //           itemCount: toShow.length,
+                //           itemBuilder: (context, index) {
+                //             return Padding(
+                //               padding: EdgeInsets.symmetric(vertical: 5,horizontal: 3),
+                //               child: GestureDetector(
+                //                 onTap: () async
+                //                 {
+                //                   addedDistrict.add(toShow[index]);
+                //                   String fileName = 'district_added.json';
+                //                   var dir = await getTemporaryDirectory();
+                //                   File file = File(dir.path + "/" + fileName);
+                //                   file.writeAsStringSync(jsonEncode(addedDistrict));
+                //                   setState(() {
+                //
+                //                   });
+                //                 },
+                //                 child: Container(
+                //                   decoration: BoxDecoration(
+                //                       color: convertColor(toShow[index]['bg_color_code']),
+                //                       borderRadius: BorderRadius.circular(10)
+                //                   ),
+                //                   child: Center(child:
+                //                   Text(toShow[index]['title_in_english'].toString(),
+                //                     style: TextStyle(
+                //                       fontSize: 16,
+                //                         color: Colors.white
+                //                     ),
+                //                   )),
+                //                 ),
+                //               ),
+                //             );
+                //           });
+                //     }
+                //   },
+                // )
+              ],
+            ),
           ),
         ));
   }

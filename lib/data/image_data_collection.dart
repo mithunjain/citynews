@@ -4,6 +4,7 @@ class ImageDataCollection {
   static const String appIcon = "images/icon-modified.png";
   static const String otherStateIcon = "images/otherState.png";
   static const String radio = "images/radio.png";
+  static const String newsNotFound = "images/noNewsFound.png";
 
   //dashboarad icons
   static const String homeIcon = "images/homeIcon.png";

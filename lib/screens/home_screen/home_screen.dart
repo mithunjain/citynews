@@ -1,7 +1,6 @@
 import 'dart:convert';
 import 'dart:developer';
 import 'dart:io';
-import 'package:animated_bottom_navigation_bar/animated_bottom_navigation_bar.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
@@ -13,6 +12,7 @@ import 'package:news/provider/homePageIndex_provider.dart';
 import 'package:news/provider/string.dart';
 import 'package:news/provider/theme_provider.dart';
 import 'package:news/provider/world_provider.dart';
+import 'package:news/screens/addMob/banner_ad_bottom.dart';
 import 'package:news/screens/bookmark_page.dart';
 import 'package:news/screens/feedback_form.dart';
 import 'package:news/screens/home_screen/anyaRajya.dart';
@@ -42,7 +42,6 @@ import 'package:url_launcher/url_launcher.dart';
 import 'package:circular_bottom_navigation/circular_bottom_navigation.dart';
 import 'ads/add_helper.dart';
 import 'mera_sheher.dart';
-import 'package:circular_menu/circular_menu.dart';
 
 // GlobalKey<_HomeScreenState> _homeScreenStateKey = GlobalKey<_HomeScreenState>();
 ///okay
@@ -1003,9 +1002,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
     }
   }
 
-
   ScrollController _scrollController = ScrollController();
-
 
   bool isscrollDown = false;
 
@@ -1306,131 +1303,130 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
           log('on refresh call start');
           getInfo();
         },
-        child:  ListView(
-                shrinkWrap: true,
-                physics: BouncingScrollPhysics(),
-                children: [
-                  Container(
-                    width: width,
-                    height: height,
-                    color: !(currentTheme == themeMode.darkMode)
-                        ? Colors.white
-                        : Colors.black,
-                    child: Padding(
-                      padding: const EdgeInsets.only(
-                        bottom: 125,
-                      ),
-                      child: PageView.builder(
-                        controller: Provider.of<HomePageIndexProvider>(context)
-                            .pagecontroller,
-                        onPageChanged: (value) {
-                          print(value.toString() + " dsadasd");
-                          if (Provider.of<HomePageIndexProvider>(context,
-                                      listen: false)
-                                  .pageIndex <
-                              value) {
-                            topbarCoontroller.animateTo(
-                              topbarCoontroller.offset + width * 0.2,
-                              duration: Duration(seconds: 2),
-                              curve: Curves.easeIn,
-                            );
-                          } else if (Provider.of<HomePageIndexProvider>(context,
-                                      listen: false)
-                                  .pageIndex >
-                              value) {
-                            topbarCoontroller.animateTo(
-                              topbarCoontroller.offset - width * 0.2,
-                              duration: Duration(seconds: 1),
-                              curve: Curves.easeIn,
-                            );
-                          }
+        child: ListView(
+          shrinkWrap: true,
+          physics: BouncingScrollPhysics(),
+          children: [
+            Container(
+              width: width,
+              height: height,
+              color: !(currentTheme == themeMode.darkMode)
+                  ? Colors.white
+                  : Colors.black,
+              child: Padding(
+                padding: const EdgeInsets.only(
+                  bottom: 125,
+                ),
+                child: PageView.builder(
+                  controller: Provider.of<HomePageIndexProvider>(context)
+                      .pagecontroller,
+                  onPageChanged: (value) {
+                    print(value.toString() + " dsadasd");
+                    if (Provider.of<HomePageIndexProvider>(context,
+                                listen: false)
+                            .pageIndex <
+                        value) {
+                      topbarCoontroller.animateTo(
+                        topbarCoontroller.offset + width * 0.2,
+                        duration: Duration(seconds: 2),
+                        curve: Curves.easeIn,
+                      );
+                    } else if (Provider.of<HomePageIndexProvider>(context,
+                                listen: false)
+                            .pageIndex >
+                        value) {
+                      topbarCoontroller.animateTo(
+                        topbarCoontroller.offset - width * 0.2,
+                        duration: Duration(seconds: 1),
+                        curve: Curves.easeIn,
+                      );
+                    }
 
-                          Provider.of<HomePageIndexProvider>(context,
-                                  listen: false)
-                              .onlychangeIndex(value);
-                          setState(() {
-                            topBarIndex = value == 0 ? value : value - 1;
-                          });
-                        },
-                        // physics: BouncingScrollPhysics(),
-                        itemCount: topBarData.length + 1,
-                        itemBuilder: (context, int pageindex) {
-                          try {
-                            if (pageindex - 1 == -1) {
-                              Future.delayed(Duration(milliseconds: 2000));
-                            }
-                            if (Provider.of<HomePageIndexProvider>(context)
-                                    .pageIndex ==
-                                0) {
-                              return TopNews();
-                            } else if (pageindex == 0) {
-                              return TopBarCategory(
-                                  cpId: topBarData[lastHomeIndex - 1]["cp_id"]);
-                            } else {
-                              lastHomeIndex = pageindex;
-                              return TopBarCategory(
-                                  cpId: topBarData[pageindex - 1]["cp_id"]);
-                            }
-                          } catch (e) {
-                            print(e);
-                          }
-                          return TopNews();
+                    Provider.of<HomePageIndexProvider>(context, listen: false)
+                        .onlychangeIndex(value);
+                    setState(() {
+                      topBarIndex = value == 0 ? value : value - 1;
+                    });
+                  },
+                  // physics: BouncingScrollPhysics(),
+                  itemCount: topBarData.length + 1,
+                  itemBuilder: (context, int pageindex) {
+                    try {
+                      if (pageindex - 1 == -1) {
+                        Future.delayed(Duration(milliseconds: 2000));
+                      }
+                      if (Provider.of<HomePageIndexProvider>(context)
+                              .pageIndex ==
+                          0) {
+                        return TopNews();
+                      } else if (pageindex == 0) {
+                        return TopBarCategory(
+                            cpId: topBarData[lastHomeIndex - 1]["cp_id"]);
+                      } else {
+                        lastHomeIndex = pageindex;
+                        return TopBarCategory(
+                            cpId: topBarData[pageindex - 1]["cp_id"]);
+                      }
+                    } catch (e) {
+                      print(e);
+                    }
+                    return TopNews();
 
-                          // Provider.of<HomePageIndexProvider>(context)
-                          //               .pageIndex ==
-                          //           0 &&
-                          //       pageindex == 0
-                          //   ? TopNews(_scrollController)
-                          //   :
-                        },
-                      ),
-                    ),
-                  ),
-                  // Container(
-                  //   width: width,
-                  //   height: height * 0.9,
-                  //   color: !(currentTheme == themeMode.darkMode) ? Colors.white : Colors.black,
-                  //   child: PageView.builder(
-                  //       controller: Provider.of<HomePageIndexProvider>(context)
-                  //           .pagecontroller,
-                  //       onPageChanged: (value) {
-                  //         if (Provider.of<HomePageIndexProvider>(context,
-                  //                     listen: false)
-                  //                 .pageIndex <
-                  //             value) {
-                  //           topbarCoontroller.animateTo(
-                  //               topbarCoontroller.offset + width * 0.2,
-                  //               duration: Duration(seconds: 1),
-                  //               curve: Curves.easeIn);
-                  //         } else if (Provider.of<HomePageIndexProvider>(context,
-                  //                     listen: false)
-                  //                 .pageIndex >
-                  //             value) {
-                  //           topbarCoontroller.animateTo(
-                  //               topbarCoontroller.offset - width * 0.2,
-                  //               duration: Duration(seconds: 1),
-                  //               curve: Curves.easeIn);
-                  //         }
-
-                  //         Provider.of<HomePageIndexProvider>(context, listen: false)
-                  //             .onlychangeIndex(value);
-                  //         setState(() {
-                  //           topBarIndex = value == 0 ? value : value - 1;
-                  //         });
-                  //       },
-                  //       physics: ScrollPhysics(),
-                  //       itemCount: topBarData.length + 1,
-                  //       itemBuilder: (context, int pageindex) {
-                  //         return Provider.of<HomePageIndexProvider>(context)
-                  //                     .pageIndex ==
-                  //                 0
-                  //             ? TopNews(_scrollController)
-                  //             : TopBarCategory(_scrollController,
-                  //                 cpId: topBarData[pageindex - 1]["cp_id"]);
-                  //       }),
-                  // ),
-                ],
+                    // Provider.of<HomePageIndexProvider>(context)
+                    //               .pageIndex ==
+                    //           0 &&
+                    //       pageindex == 0
+                    //   ? TopNews(_scrollController)
+                    //   :
+                  },
+                ),
               ),
+            ),
+            // Container(
+            //   width: width,
+            //   height: height * 0.9,
+            //   color: !(currentTheme == themeMode.darkMode) ? Colors.white : Colors.black,
+            //   child: PageView.builder(
+            //       controller: Provider.of<HomePageIndexProvider>(context)
+            //           .pagecontroller,
+            //       onPageChanged: (value) {
+            //         if (Provider.of<HomePageIndexProvider>(context,
+            //                     listen: false)
+            //                 .pageIndex <
+            //             value) {
+            //           topbarCoontroller.animateTo(
+            //               topbarCoontroller.offset + width * 0.2,
+            //               duration: Duration(seconds: 1),
+            //               curve: Curves.easeIn);
+            //         } else if (Provider.of<HomePageIndexProvider>(context,
+            //                     listen: false)
+            //                 .pageIndex >
+            //             value) {
+            //           topbarCoontroller.animateTo(
+            //               topbarCoontroller.offset - width * 0.2,
+            //               duration: Duration(seconds: 1),
+            //               curve: Curves.easeIn);
+            //         }
+
+            //         Provider.of<HomePageIndexProvider>(context, listen: false)
+            //             .onlychangeIndex(value);
+            //         setState(() {
+            //           topBarIndex = value == 0 ? value : value - 1;
+            //         });
+            //       },
+            //       physics: ScrollPhysics(),
+            //       itemCount: topBarData.length + 1,
+            //       itemBuilder: (context, int pageindex) {
+            //         return Provider.of<HomePageIndexProvider>(context)
+            //                     .pageIndex ==
+            //                 0
+            //             ? TopNews(_scrollController)
+            //             : TopBarCategory(_scrollController,
+            //                 cpId: topBarData[pageindex - 1]["cp_id"]);
+            //       }),
+            // ),
+          ],
+        ),
       );
     }
 
@@ -1716,7 +1712,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                   Navigator.push(context,
                       MaterialPageRoute(builder: (context) => BookmarkPage()));
                 },
-                child: Icon(Icons.bookmark)),
+                child: Icon(Icons.bookmark_border)),
             SizedBox(width: 10),
             // Icon(Icons.notifications),
           ],
@@ -2662,62 +2658,66 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
         ),
       ),
       body: WillPopScope(
-        onWillPop: () async {
-          int _tabIndex =
-              Provider.of<HomePageIndexProvider>(context, listen: false)
-                  .tabIndex;
-          if (_scaffoldKey.currentState != null &&
-              _scaffoldKey.currentState?.isDrawerOpen == true) {
-            _scaffoldKey.currentState!.closeDrawer();
-          }
-          if (_tabIndex == 0 &&
-              _scaffoldKey.currentState?.isDrawerOpen == false) {
-            final shouldPop = await showDialog<bool>(
-              context: context,
-              builder: (context) {
-                return AlertDialog(
-                  title: const Text(AppTextDataCollection.appTitleText),
-                  content: const Text(AppTextDataCollection.alertText,
-                      style: TextStyle(fontSize: 20)),
-                  actionsAlignment: MainAxisAlignment.spaceBetween,
-                  actions: [
-                    TextButton(
-                      onPressed: () {
-                        ratingAppFunctionality();
-                        Navigator.pop(context, true);
-                      },
-                      child: const Text(AppTextDataCollection.appRatingText),
-                    ),
-                    TextButton(
-                      onPressed: () {
-                        Navigator.pop(context, false);
-                      },
-                      child: const Text(
-                        AppTextDataCollection.alertNoText,
+          onWillPop: () async {
+            int _tabIndex =
+                Provider.of<HomePageIndexProvider>(context, listen: false)
+                    .tabIndex;
+            if (_scaffoldKey.currentState != null &&
+                _scaffoldKey.currentState?.isDrawerOpen == true) {
+              _scaffoldKey.currentState!.closeDrawer();
+            }
+            if (_tabIndex == 0 &&
+                _scaffoldKey.currentState?.isDrawerOpen == false) {
+              final shouldPop = await showDialog<bool>(
+                context: context,
+                builder: (context) {
+                  return AlertDialog(
+                    title: const Text(AppTextDataCollection.appTitleText),
+                    content: const Text(AppTextDataCollection.alertText,
+                        style: TextStyle(fontSize: 20)),
+                    actionsAlignment: MainAxisAlignment.spaceBetween,
+                    actions: [
+                      TextButton(
+                        onPressed: () {
+                          ratingAppFunctionality();
+                          Navigator.pop(context, true);
+                        },
+                        child: const Text(AppTextDataCollection.appRatingText),
                       ),
-                    ),
-                    TextButton(
-                      onPressed: () {
-                        Navigator.pop(context, true);
-                      },
-                      child: const Text(AppTextDataCollection.alertYesText),
-                    ),
-                  ],
-                );
-              },
-            );
-            return shouldPop!;
-          } else {
-            Provider.of<HomePageIndexProvider>(context).changeTabIndex(0);
-            return false;
-          }
-        },
-        child: Consumer<HomePageIndexProvider>(
-          builder: (context, provider, child) {
-            return _pages[provider.tabIndex];
+                      TextButton(
+                        onPressed: () {
+                          Navigator.pop(context, false);
+                        },
+                        child: const Text(
+                          AppTextDataCollection.alertNoText,
+                        ),
+                      ),
+                      TextButton(
+                        onPressed: () {
+                          Navigator.pop(context, true);
+                        },
+                        child: const Text(AppTextDataCollection.alertYesText),
+                      ),
+                    ],
+                  );
+                },
+              );
+              return shouldPop!;
+            } else {
+              Provider.of<HomePageIndexProvider>(context).changeTabIndex(0);
+              return false;
+            }
           },
-        ),
-      ),
+          child: Stack(
+            children: [
+              Consumer<HomePageIndexProvider>(
+                builder: (context, provider, child) {
+                  return _pages[provider.tabIndex];
+                },
+              ),
+              Positioned(bottom: 0, left: 10, child: BottomBannerAdmob())
+            ],
+          )),
     );
   }
 
@@ -2743,7 +2743,9 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                 .tabIndex ==
                             tabIndex
                         ? Colors.blue[900]
-                        :(currentTheme == themeMode.darkMode)? Colors.white:Colors.black),
+                        : (currentTheme == themeMode.darkMode)
+                            ? Colors.white
+                            : Colors.black),
             Padding(
               padding: const EdgeInsets.only(top: 2),
               child: Text(
@@ -2760,7 +2762,9 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                 .tabIndex ==
                             tabIndex
                         ? Colors.blue[900]
-                        : (currentTheme == themeMode.darkMode)? Colors.white:Colors.black),
+                        : (currentTheme == themeMode.darkMode)
+                            ? Colors.white
+                            : Colors.black),
               ),
             ),
           ],

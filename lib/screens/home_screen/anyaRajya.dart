@@ -2,23 +2,21 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:developer';
 import 'dart:io';
-
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:news/provider/apna_ragya_provider.dart';
+import 'package:news/provider/homePageIndex_provider.dart';
 import 'package:news/provider/string.dart';
 import 'package:news/provider/theme_provider.dart';
 import 'package:news/screens/home_screen/home_screen.dart';
 import 'package:news/screens/news_details/html_news.dart';
 import 'package:news/screens/news_details/webiew.dart';
-import 'package:news/services/data_management.dart';
 import 'package:news/type/types.dart';
 import 'package:news/widgets/news_details_container.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:provider/provider.dart';
-import 'package:toast/toast.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 int stChangeApnaRajya = 1;
@@ -347,8 +345,8 @@ class _AnyaRajyaState extends State<AnyaRajya> with TickerProviderStateMixin {
 
     return WillPopScope(
       onWillPop: () async {
-        Navigator.pushReplacement(
-            context, MaterialPageRoute(builder: (context) => HomeScreen()));
+        // Provider.of<HomePageIndexProvider>(context, listen: false)
+        //     .changeTabIndex(0);
         // return true;
         return await showDialog(
           context: context,
@@ -616,39 +614,39 @@ class _RagyaState extends State<Ragya> {
   //   }
   // }
 
-
   Future<void> getInfo() async {
-  isLoading = true;
-  if (mounted) setState(() {});
+    isLoading = true;
+    if (mounted) setState(() {});
 
-  try {
-    var response = await http.get(Uri.parse('http://5.161.78.72/api/home_latest_news?take=20&st_id=${widget.id}&page=1'));
-    if (response.statusCode == 200) {
-      var body = await response.body;
-      log('new details response==>$body');
-      final res = jsonDecode(body);
+    try {
+      var response = await http.get(Uri.parse(
+          'http://5.161.78.72/api/home_latest_news?take=20&st_id=${widget.id}&page=1'));
+      if (response.statusCode == 200) {
+        var body = await response.body;
+        log('new details response==>$body');
+        final res = jsonDecode(body);
+        if (mounted) {
+          setState(() {
+            homeNewsDataList = res[0]['news'];
+            isLoading = false;
+            page++;
+          });
+        }
+      } else {
+        if (mounted) {
+          setState(() {
+            isLoading = false;
+          });
+        }
+      }
+    } catch (e) {
       if (mounted) {
         setState(() {
-          homeNewsDataList = res[0]['news'];
-          isLoading = false;
-          page++;
-        });
-      }
-    } else {
-      if (mounted) {
-        setState(() {
           isLoading = false;
         });
       }
-    }
-  } catch (e) {
-    if (mounted) {
-      setState(() {
-        isLoading = false;
-      });
     }
   }
-}
 
   // Future<void> getMoreData() async {
   //   String fileName = 'getHomeNews${widget.id}.json';
@@ -697,41 +695,42 @@ class _RagyaState extends State<Ragya> {
   //     });
   //   }
   // }
-Future<void> getMoreData() async {
-  isLoading = true;
-  moreDataLoading = true;
-  if (mounted) setState(() {});
+  Future<void> getMoreData() async {
+    isLoading = true;
+    moreDataLoading = true;
+    if (mounted) setState(() {});
 
-  try {
-    var response = await http.get(Uri.parse('http://5.161.78.72/api/home_latest_news?take=20&st_id=${widget.id}&skip=$page'));
-    if (response.statusCode == 200) {
-      var body = await response.body;
-      final res = jsonDecode(body);
+    try {
+      var response = await http.get(Uri.parse(
+          'http://5.161.78.72/api/home_latest_news?take=20&st_id=${widget.id}&skip=$page'));
+      if (response.statusCode == 200) {
+        var body = await response.body;
+        final res = jsonDecode(body);
+        if (mounted) {
+          setState(() {
+            homeNewsDataList.addAll(res[0]['news']);
+            isLoading = false;
+            moreDataLoading = false;
+            page++;
+          });
+        }
+      } else {
+        if (mounted) {
+          setState(() {
+            isLoading = false;
+            moreDataLoading = false;
+          });
+        }
+      }
+    } catch (e) {
       if (mounted) {
         setState(() {
-          homeNewsDataList.addAll(res[0]['news']);
-          isLoading = false;
-          moreDataLoading = false;
-          page++;
-        });
-      }
-    } else {
-      if (mounted) {
-        setState(() {
           isLoading = false;
           moreDataLoading = false;
         });
       }
-    }
-  } catch (e) {
-    if (mounted) {
-      setState(() {
-        isLoading = false;
-        moreDataLoading = false;
-      });
     }
   }
-}
 
   Widget _buildProgressIndicator() {
     return new Padding(
@@ -751,11 +750,13 @@ Future<void> getMoreData() async {
     getInfo();
     super.initState();
   }
-@override
-void dispose() {
-  _scrollControllerRajya.dispose();
-  super.dispose();
-}
+
+  @override
+  void dispose() {
+    _scrollControllerRajya.dispose();
+    super.dispose();
+  }
+
   void _scrollListener() {
     if (!_scrollControllerRajya.hasClients)
       return; // Ensure the controller is attached
