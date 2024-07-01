@@ -1,12 +1,7 @@
-import 'package:auto_size_text/auto_size_text.dart';
-import 'package:cached_network_image/cached_network_image.dart';
+
 import 'package:flutter/material.dart';
-import 'package:flutter_share/flutter_share.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
-import 'package:news/data/image_data_collection.dart';
-import 'package:news/dynamic_link.dart';
 import 'package:news/provider/string.dart';
 import 'package:news/provider/theme_provider.dart';
 import 'package:news/screens/news_details/html_news.dart';
@@ -14,7 +9,6 @@ import 'package:news/screens/news_details/webiew.dart';
 import 'package:news/type/types.dart';
 import 'package:news/widgets/news_details_container.dart';
 import 'package:provider/provider.dart';
-import 'package:share/share.dart';
 
 import 'home_screen/ads/add_helper.dart';
 

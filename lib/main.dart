@@ -1,5 +1,6 @@
 // ignore_for_file: must_be_immutable
 
+import 'dart:async';
 import 'dart:developer';
 import 'dart:io';
 import 'dart:convert';
@@ -21,7 +22,10 @@ import 'package:news/screens/home_screen/home_screen.dart';
 import 'package:news/screens/home_screen/states_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:news/screens/radio/sub_screen_scrollManagement.dart';
+import 'package:news/services/context_utility.dart';
+import 'package:news/services/uni_services.dart';
 import 'package:news/type/types.dart';
+import 'package:news/widgets/custome_web_view_screen.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -41,34 +45,37 @@ Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   Firebase.initializeApp();
   MobileAds.instance.initialize();
+  Get.testMode = true;
+  await UniService.init();
 
   final currentThemeData = await themeDataManagement();
 
   runApp(MultiProvider(
-      providers: [
-        ChangeNotifierProvider(create: (_) => SheherChangeProvider()),
-        ChangeNotifierProvider(create: (_) => HomePageIndexProvider()),
-        ChangeNotifierProvider(create: (_) => ApnaSheherIndexProvider()),
-        ChangeNotifierProvider(create: (_) => ApnaRagyaIndexProvider()),
-        ChangeNotifierProvider(create: (_) => SongManagementProvider()),
-        ChangeNotifierProvider(create: (_) => WorldIndexProvider()),
-        ChangeNotifierProvider(create: (_) => SubScrollManagement()),
-        ChangeNotifierProvider(create: (_) => RadioCollectionProvider()),
-        ChangeNotifierProvider(create: (_) => AnyaRajyaProvider()),
-        ChangeNotifierProvider(create: (_) => ThemeChanger(currentThemeData))
-      ],
-      child: GetMaterialApp(
-        debugShowCheckedModeBanner: false,
-        builder: (context, child) {
-          final mediaQueryData = MediaQuery.of(context);
-          // final scale = mediaQueryData.textScaleFactor.clamp(1.0, 1.0);
-          return MediaQuery(
-            child: child!,
-            data: mediaQueryData.copyWith(textScaleFactor: 1.0),
-          );
-        },
-        home: MyApp(),
-      )));
+    providers: [
+      ChangeNotifierProvider(create: (_) => SheherChangeProvider()),
+      ChangeNotifierProvider(create: (_) => HomePageIndexProvider()),
+      ChangeNotifierProvider(create: (_) => ApnaSheherIndexProvider()),
+      ChangeNotifierProvider(create: (_) => ApnaRagyaIndexProvider()),
+      ChangeNotifierProvider(create: (_) => SongManagementProvider()),
+      ChangeNotifierProvider(create: (_) => WorldIndexProvider()),
+      ChangeNotifierProvider(create: (_) => SubScrollManagement()),
+      ChangeNotifierProvider(create: (_) => RadioCollectionProvider()),
+      ChangeNotifierProvider(create: (_) => AnyaRajyaProvider()),
+      ChangeNotifierProvider(create: (_) => ThemeChanger(currentThemeData))
+    ],
+    child: GetMaterialApp(
+      debugShowCheckedModeBanner: false,
+      navigatorKey: ContextUtility.navigatorKey,
+      builder: (context, child) {
+        final mediaQueryData = MediaQuery.of(context);
+        return MediaQuery(
+          child: child!,
+          data: mediaQueryData.copyWith(textScaleFactor: 1.0),
+        );
+      },
+      home: MyApp(),
+    ),
+  ));
 }
 
 class MyApp extends StatefulWidget {
@@ -80,7 +87,7 @@ class MyApp extends StatefulWidget {
 
 class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
   bool isrunning = true;
-
+  StreamSubscription? _sub;
   void didChangeAppLifecycleState(AppLifecycleState state) {
     super.didChangeAppLifecycleState(state);
     print("RESUMEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEED");
@@ -91,12 +98,26 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
     await startDynamicLink();
   }
 
+  // void handleIncomingLinks() {
+  //   getLinksStream().listen((String? link) {
+  //     if (link != null) {
+  //       Uri uri = Uri.parse(link);
+  //       // Assuming your URL is like 'https://www.yourwebsite.com/news/123'
+  //       if (uri.pathSegments.first == 'news' && uri.pathSegments.length > 1) {
+  //         String newsId = uri.pathSegments[1];
+  //         Navigator.pushNamed(context, '/newsDetail', arguments: newsId);
+  //       }
+  //     }
+  //   }, onError: (err) {
+  //     // Handle exceptions
+  //     print('Failed to handle link: $err.');
+  //   });
+  // }
+
   void initState() {
     super.initState();
-    WidgetsBinding.instance?.addObserver(this);
-    navigate();
-
-    print("CALLLLLLLLLLLLLLLLLLLLLLLLLLLLEDDDDDDDDDDDDdddd");
+    // WidgetsBinding.instance?.addObserver(this);
+    // navigate();
     // WidgetsBinding.instance.addObserver(this);
     // this.initDynamicLink();
     var d = const Duration(seconds: 1);
@@ -185,7 +206,7 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
   }
 
   void dispose() {
-    WidgetsBinding.instance?.removeObserver(this);
+    // WidgetsBinding.instance?.removeObserver(this);
     super.dispose();
   }
 
@@ -231,7 +252,7 @@ class _MyAppsState extends State<MyApps> with WidgetsBindingObserver {
   void initState() {
     print("IN INIT********************************************");
     super.initState();
-    WidgetsBinding.instance?.addObserver(this);
+    // WidgetsBinding.instance?.addObserver(this);
     navigate();
   }
 

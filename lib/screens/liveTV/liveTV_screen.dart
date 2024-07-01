@@ -9,7 +9,7 @@ import 'package:http/http.dart' as http;
 import 'package:provider/provider.dart';
 import 'package:news/provider/theme_provider.dart';
 import 'package:news/widgets/styles.dart';
-import 'package:wakelock/wakelock.dart';
+import 'package:wakelock_plus/wakelock_plus.dart';
 
 class LiveTVScreen extends StatefulWidget {
   @override
@@ -61,13 +61,13 @@ class _LiveTVScreenState extends State<LiveTVScreen> {
   @override
   void initState() {
     super.initState();
-    Wakelock.enable();
+    WakelockPlus.enable();
     getLiveTvData();
   }
 
   @override
   void dispose() {
-    Wakelock.disable();
+    WakelockPlus.disable();
     _videocontroller?.dispose();
     _chewieController?.dispose();
     super.dispose();

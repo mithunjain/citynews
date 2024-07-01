@@ -1,4 +1,4 @@
-package com.newsbank.app
+package com.citynews.india
 
 import android.content.Context
 import android.view.LayoutInflater

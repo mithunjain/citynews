@@ -14,7 +14,7 @@ import 'package:news/screens/radio/radio_details_screen.dart';
 import 'package:news/screens/radio/sub_screen_scrollManagement.dart';
 import 'package:news/type/types.dart';
 import 'package:provider/provider.dart';
-import 'package:wakelock/wakelock.dart';
+import 'package:wakelock_plus/wakelock_plus.dart';
 
 class RadioScreen extends StatefulWidget {
   const RadioScreen({Key? key}) : super(key: key);
@@ -31,7 +31,7 @@ class _RadioScreenState extends State<RadioScreen> {
 
   @override
   void initState() {
-    Wakelock.enable();
+    WakelockPlus.enable();
     Provider.of<SubScrollManagement>(context, listen: false).startListening();
     Provider.of<RadioCollectionProvider>(context, listen: false).initialize();
     super.initState();
@@ -39,7 +39,7 @@ class _RadioScreenState extends State<RadioScreen> {
 
   @override
   void dispose() {
-    Wakelock.disable();
+    WakelockPlus.disable();
     super.dispose();
   }
 

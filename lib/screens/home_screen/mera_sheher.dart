@@ -24,7 +24,6 @@ class MeraSheher extends StatefulWidget {
 }
 
 class _MeraSheherState extends State<MeraSheher> with TickerProviderStateMixin {
- 
   Future<void> getDistrictData() async {
     String fileName = 'district_added.json';
     var dir = await getTemporaryDirectory();
@@ -46,14 +45,10 @@ class _MeraSheherState extends State<MeraSheher> with TickerProviderStateMixin {
   var topbarCoontrollerMs = new ScrollController();
   int topBarIndex = 0;
 
-
- 
-
   changePage(int newPageIndex) {
     Provider.of<ApnaSheherIndexProvider>(context, listen: false)
         .changePage(newPageIndex);
   }
-
 
   @override
   void initState() {
@@ -109,18 +104,18 @@ class _MeraSheherState extends State<MeraSheher> with TickerProviderStateMixin {
         //             InkWell(
         //                 onTap: () {
         //                   try {
-        //                     launch("market://details?id=" + 'com.newsbank.app');
+        //                     launch("market://details?id=" + 'com.citynews.india');
         //                   } on PlatformException catch (_) {
         //                     launch(
         //                         "https://play.google.com/store/apps/details?id=" +
-        //                             'com.newsbank.app');
+        //                             'com.citynews.india');
         //                   } finally {
         //                     launch(
         //                         "https://play.google.com/store/apps/details?id=" +
-        //                             'com.newsbank.app');
+        //                             'com.citynews.india');
         //                   }
         //                   // _launchURL(
-        //                   //     'https://play.google.com/store/apps/details?id=com.newsbank.app');
+        //                   //     'https://play.google.com/store/apps/details?id=com.citynews.india');
         //                 },
         //                 child: Container(
         //                     child: Text('रेटिंग दें',
@@ -218,7 +213,7 @@ class _MeraSheherState extends State<MeraSheher> with TickerProviderStateMixin {
                         for (final item in addedDistrict) {
                           tempDistrict.add(item);
                         }
-                         bool updateNeeded = await Navigator.push(
+                        bool updateNeeded = await Navigator.push(
                             context,
                             MaterialPageRoute(
                                 builder: (context) => ApnaSheher()));
@@ -285,42 +280,44 @@ class _MeraSheherState extends State<MeraSheher> with TickerProviderStateMixin {
                       ),
                     ),
                   )
-                : Expanded(child:  PageView.builder(
-                          onPageChanged: (value) {
-                            if (Provider.of<ApnaSheherIndexProvider>(context,
-                                        listen: false)
-                                    .pageIndex <
-                                value) {
-                              topbarCoontrollerMs!.animateTo(
-                                  topbarCoontrollerMs!.offset + width * 0.2,
-                                  duration: Duration(seconds: 1),
-                                  curve: Curves.linear);
-                            } else if (Provider.of<ApnaSheherIndexProvider>(
-                                        context,
-                                        listen: false)
-                                    .pageIndex >
-                                value) {
-                              topbarCoontrollerMs!.animateTo(
-                                  topbarCoontrollerMs!.offset - width * 0.2,
-                                  duration: Duration(seconds: 1),
-                                  curve: Curves.linear);
-                            }
+                : Expanded(
+                    child: PageView.builder(
+                        onPageChanged: (value) {
+                          if (Provider.of<ApnaSheherIndexProvider>(context,
+                                      listen: false)
+                                  .pageIndex <
+                              value) {
+                            // topbarCoontrollerMs!.animateTo(
+                            //     topbarCoontrollerMs!.offset + width * 0.2,
+                            //     duration: Duration(seconds: 1),
+                            //     curve: Curves.linear);
+                          } else if (Provider.of<ApnaSheherIndexProvider>(
+                                      context,
+                                      listen: false)
+                                  .pageIndex >
+                              value) {
+                            // topbarCoontrollerMs!.animateTo(
+                            //     topbarCoontrollerMs!.offset - width * 0.2,
+                            //     duration: Duration(seconds: 1),
+                            //     curve: Curves.linear);
+                          }
 
-                            Provider.of<ApnaSheherIndexProvider>(context,
-                                    listen: false)
-                                .onlychangeIndex(value);
-                            // setState(() {
-                            //   topBarIndex = value == 0 ? value : value - 1;
-                            // });
-                          },
-                          controller:Provider.of<ApnaSheherIndexProvider>(context).pagecontroller,
-                          itemCount: addedDistrict.length,
-                          itemBuilder: (context, pageIndex) {
-                            return TopBarMeraSheher(
-                              did: addedDistrict[pageIndex]['did'].toString(),
-                            );
-                          })
-                    )
+                          Provider.of<ApnaSheherIndexProvider>(context,
+                                  listen: false)
+                              .onlychangeIndex(value);
+                          // setState(() {
+                          //   topBarIndex = value == 0 ? value : value - 1;
+                          // });
+                        },
+                        controller:
+                            Provider.of<ApnaSheherIndexProvider>(context)
+                                .pagecontroller,
+                        itemCount: addedDistrict.length,
+                        itemBuilder: (context, pageIndex) {
+                          return TopBarMeraSheher(
+                            did: addedDistrict[pageIndex]['did'].toString(),
+                          );
+                        }))
           ],
         ),
       ),

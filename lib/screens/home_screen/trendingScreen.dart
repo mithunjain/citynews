@@ -14,8 +14,6 @@ import 'package:news/type/types.dart';
 import 'package:news/widgets/styles.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:provider/provider.dart';
-import 'package:scroll_app_bar/scroll_app_bar.dart';
-import 'package:url_launcher/url_launcher.dart';
 import '../bookmark_page.dart';
 import 'dart:io';
 
@@ -174,18 +172,18 @@ class _TrendingScreenState extends State<TrendingScreen> {
           //               InkWell(
           //                   onTap: () {
           //                     try {
-          //                       launch("market://details?id=" + 'com.newsbank.app');
+          //                       launch("market://details?id=" + 'com.citynews.india');
           //                     } on PlatformException catch (_) {
           //                       launch(
           //                           "https://play.google.com/store/apps/details?id=" +
-          //                               'com.newsbank.app');
+          //                               'com.citynews.india');
           //                     } finally {
           //                       launch(
           //                           "https://play.google.com/store/apps/details?id=" +
-          //                               'com.newsbank.app');
+          //                               'com.citynews.india');
           //                     }
           //                     // _launchURL(
-          //                     //     'https://play.google.com/store/apps/details?id=com.newsbank.app');
+          //                     //     'https://play.google.com/store/apps/details?id=com.citynews.india');
           //                   },
           //                   child: Container(
           //                       child: Text('रेटिंग दें',

@@ -195,6 +195,42 @@ class NewsDetailsContainer extends StatelessWidget {
                       SizedBox(width: 10),
                       InkWell(
                           onTap: () async {
+                            // final tempMap = newsData;
+                            // tempMap['main_image_cropped'] =
+                            //     newsData["main_image_thumb"].toString();
+
+                            // final shareNewsData = {
+                            //   "newsTitle": newsData["title"],
+                            //   "newsURL": newsData["imported_news_url"],
+                            //   "data": tempMap
+                            // };
+
+                            // // Assuming each news item has a unique identifier
+                            // String newsId =
+                            //     newsData["imported_news_url"].toString();
+                            // String url = '${newsData["imported_news_url"]}';
+
+                            // // Download the image from the API
+                            // var imageUrl = newsData['main_image'] ??
+                            //     ''; // Assuming 'main_image' is the key for full images
+                            // var response = await http.get(Uri.parse(imageUrl));
+                            // var documentDirectory =
+                            //     await getApplicationDocumentsDirectory();
+                            // File imgFile =
+                            //     new File('${documentDirectory.path}/temp.jpg');
+                            // await imgFile.writeAsBytes(response.bodyBytes);
+
+                            // // Share content with image
+                            // final title =
+                            //     newsData["title"] ?? "Check this out!";
+                            // final text =
+                            //     '$title\nCheck out more here: myapp://open?url=$url';
+
+                            // await Share.shareXFiles(
+                            //   [XFile(imgFile.path)],
+                            //   text: text,
+                            //   subject: title,
+                            // );
                             final tempMap = newsData;
                             tempMap['main_image_cropped'] =
                                 newsData["main_image_thumb"].toString();
@@ -205,11 +241,11 @@ class NewsDetailsContainer extends StatelessWidget {
                               "data": tempMap
                             };
 
-                            // Generate a dynamic URL
-                            String url = '';
-                            await generateUrl(shareNewsData)
-                                .then((value) => url = value);
-                            print("Url is: $url");
+                            // Assuming each news item has a unique identifier
+                            String url =
+                                newsData["imported_news_url"].toString();
+                            String customUrlScheme =
+                                'https://city-news-b0dd2.web.app/?code=$url';
 
                             // Download the image from the API
                             var imageUrl = newsData['main_image'] ??
@@ -224,7 +260,8 @@ class NewsDetailsContainer extends StatelessWidget {
                             // Share content with image
                             final title =
                                 newsData["title"] ?? "Check this out!";
-                            final text = '$title\nCheck out more here: $url';
+                            final text =
+                                '$title\nCheck out more here: $customUrlScheme';
 
                             await Share.shareXFiles(
                               [XFile(imgFile.path)],
@@ -232,7 +269,6 @@ class NewsDetailsContainer extends StatelessWidget {
                               subject: title,
                             );
                             print('Content shared');
-
                             // Optionally, you might want to clean up the temporary file afterwards
                             await imgFile.delete();
                           },

@@ -1,44 +1,26 @@
 {
   "project_info": {
-    "project_number": "876284500803",
-    "project_id": "newsbank-imgn",
-    "storage_bucket": "newsbank-imgn.appspot.com"
+    "project_number": "819305673481",
+    "project_id": "city-news-b0dd2",
+    "storage_bucket": "city-news-b0dd2.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:876284500803:android:613509f07813ba50a9adf6",
+        "mobilesdk_app_id": "1:819305673481:android:8ca718b5526f71fa5a59d8",
         "android_client_info": {
-          "package_name": "com.newsbank.app"
+          "package_name": "com.citynews.india"
         }
       },
-      "oauth_client": [
-        {
-          "client_id": "876284500803-3j3j1fht8dejgb7otptptpdfngtt7d1h.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "com.newsbank.app",
-            "certificate_hash": "97730e93a20516998023b18fef8aa109c3b0f78c"
-          }
-        },
-        {
-          "client_id": "876284500803-mpl9dqhv001ql4jj5frnjnbq3fa99vpv.apps.googleusercontent.com",
-          "client_type": 3
-        }
-      ],
+      "oauth_client": [],
       "api_key": [
         {
-          "current_key": "AIzaSyBTcHgCtL7NKQodzMnonwvTN26r6zxdow8"
+          "current_key": "AIzaSyDVfpzWFbP7TUE9mX38RmkdgpN4m1RlOwY"
         }
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": [
-            {
-              "client_id": "876284500803-mpl9dqhv001ql4jj5frnjnbq3fa99vpv.apps.googleusercontent.com",
-              "client_type": 3
-            }
-          ]
+          "other_platform_oauth_client": []
         }
       }
     }

@@ -1,0 +1,12 @@
+[
+  {
+    "relation": ["delegate_permission/common.handle_all_urls"],
+    "target": {
+      "namespace": "android_app",
+      "package_name": "com.citynews.india",
+      "sha256_cert_fingerprints": [
+        "19:AF:9B:DD:8E:E3:6E:69:FA:52:FD:53:23:8B:0C:4A:3B:72:56:A6:1B:FD:56:9D:9C:78:65:7A:AA:03:8E:62"
+      ]
+    }
+  }
+]

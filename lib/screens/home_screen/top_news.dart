@@ -5,7 +5,7 @@ import 'dart:convert';
 import 'dart:developer';
 import 'dart:io';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:carousel_slider/carousel_slider.dart';
+// import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/rendering.dart';
 import 'package:get/get.dart';
 import 'package:news/dynamic_link.dart';
@@ -300,7 +300,7 @@ class _TopNewsState extends State<TopNews>
 
   // Future<String> generateLink(data) async {
   //   final DynamicLinkParameters parameters = DynamicLinkParameters(
-  //     uriPrefix: 'https://ingnnewsbank.page.link',
+  //     uriPrefix: 'https://citynews.page.link',
   //     link: Uri.parse(
   //         'https://<your-domain-name>.page.link/start/?data=$data'), // <- your paramaters
   //     dynamicLinkParametersOptions: DynamicLinkParametersOptions(
@@ -321,7 +321,7 @@ class _TopNewsState extends State<TopNews>
   //         shortDynamicLinkPathLength: ShortDynamicLinkPathLength.unguessable),
   //   );
   //   final Uri shortUrl = shortenedLink.shortUrl;
-  //   return "https://ingnnewsbank.page.link" + shortUrl.path;
+  //   return "https://citynews.page.link" + shortUrl.path;
   // }
 
   String hi = "";
@@ -623,7 +623,7 @@ class _TopNewsState extends State<TopNews>
     return bannerData;
   }
 
-  CarouselController buttonCarouselController = CarouselController();
+  // CarouselController buttonCarouselController = CarouselController();
   @override
   void initState() {
     // myScroll();
@@ -652,7 +652,7 @@ class _TopNewsState extends State<TopNews>
     });
     _resizableController.forward();
 
-    WidgetsBinding.instance?.addObserver(this);
+    // WidgetsBinding.instance?.addObserver(this);
 
     sliding = false;
 
@@ -1156,72 +1156,73 @@ class _TopNewsState extends State<TopNews>
                 : Container(),
             getallads == null || getallads['count'] == 0
                 ? SizedBox()
-                : Container(
-                    height: height * 0.10,
-                    child: CarouselSlider(
-                      items: List.generate(getallads['count'], (index) {
-                        return InkWell(
-                          onTap: () async {
-                            print("Cliccccccccccccccccccccccccked");
-                            try {
-                              var link = getallads['ads'][index]['ad_link'];
-                              // var stringLink = link.toString().length;
-                              //    print("leng" + stringLink.toString());
-                              print(link.toString() + "linkkkkkkkk");
-                              if (link ==
-                                  "https://play.google.com/store/apps/details?id=com.newsbank.app") {
-                                await launch(link);
-                              } else if (link != null) {
-                                final dataNews = {
-                                  "newsTitle": "",
-                                  "newsURL": link,
-                                  "data": {},
-                                };
-                                Get.to(WebviewScreen(), arguments: dataNews);
-                                // Navigator.push(
-                                //     context,
-                                //     MaterialPageRoute(
-                                //         builder: (context) => WebviewScreen(
-                                //             newsTitle: '',
-                                //             newsURL: link,
-                                //             data: '')));
-                              } else {
-                                final img =
-                                    getallads['ads'][index]['ad_banner'];
-                                await transparentDialogScreen(
-                                    img, mq, currentTheme, themeMode);
-                              }
-                            } catch (_) {
-                              final img = getallads['ads'][index]['ad_banner'];
-                              await transparentDialogScreen(
-                                  img, mq, currentTheme, themeMode);
-                            }
-                          },
-                          child: Container(
-                            height: height * 0.2,
-                            width: double.infinity,
-                            decoration: BoxDecoration(
-                                image: DecorationImage(
-                                    image: CachedNetworkImageProvider(
-                                        getallads['ads'][index]['ad_banner']),
-                                    fit: BoxFit.fill)),
-                          ),
-                        );
-                      }),
+                : Container(),
+            // : Container(
+            //     height: height * 0.10,
+            //     child: CarouselSlider(
+            //       items: List.generate(getallads['count'], (index) {
+            //         return InkWell(
+            //           onTap: () async {
+            //             print("Cliccccccccccccccccccccccccked");
+            //             try {
+            //               var link = getallads['ads'][index]['ad_link'];
+            //               // var stringLink = link.toString().length;
+            //               //    print("leng" + stringLink.toString());
+            //               print(link.toString() + "linkkkkkkkk");
+            //               if (link ==
+            //                   "https://play.google.com/store/apps/details?id=com.citynews.india") {
+            //                 await launch(link);
+            //               } else if (link != null) {
+            //                 final dataNews = {
+            //                   "newsTitle": "",
+            //                   "newsURL": link,
+            //                   "data": {},
+            //                 };
+            //                 Get.to(WebviewScreen(), arguments: dataNews);
+            //                 // Navigator.push(
+            //                 //     context,
+            //                 //     MaterialPageRoute(
+            //                 //         builder: (context) => WebviewScreen(
+            //                 //             newsTitle: '',
+            //                 //             newsURL: link,
+            //                 //             data: '')));
+            //               } else {
+            //                 final img =
+            //                     getallads['ads'][index]['ad_banner'];
+            //                 await transparentDialogScreen(
+            //                     img, mq, currentTheme, themeMode);
+            //               }
+            //             } catch (_) {
+            //               final img = getallads['ads'][index]['ad_banner'];
+            //               await transparentDialogScreen(
+            //                   img, mq, currentTheme, themeMode);
+            //             }
+            //           },
+            //           child: Container(
+            //             height: height * 0.2,
+            //             width: double.infinity,
+            //             decoration: BoxDecoration(
+            //                 image: DecorationImage(
+            //                     image: CachedNetworkImageProvider(
+            //                         getallads['ads'][index]['ad_banner']),
+            //                     fit: BoxFit.fill)),
+            //           ),
+            //         );
+            //       }),
 
-                      // configuration of the add speed
-                      options: CarouselOptions(
-                        enlargeCenterPage: true,
-                        autoPlayCurve: Curves.linear,
-                        autoPlayInterval: Duration(milliseconds: 3000),
-                        autoPlay: true,
-                        aspectRatio: 1,
-                        enableInfiniteScroll: true,
-                        autoPlayAnimationDuration: Duration(milliseconds: 100),
-                        viewportFraction: 1,
-                      ),
-                    ),
-                  ),
+            //       // configuration of the add speed
+            //       options: CarouselOptions(
+            //         enlargeCenterPage: true,
+            //         autoPlayCurve: Curves.linear,
+            //         autoPlayInterval: Duration(milliseconds: 3000),
+            //         autoPlay: true,
+            //         aspectRatio: 1,
+            //         enableInfiniteScroll: true,
+            //         autoPlayAnimationDuration: Duration(milliseconds: 100),
+            //         viewportFraction: 1,
+            //       ),
+            //     ),
+            //   ),
             homeNewsData.length == 0
                 ? Container()
                 : newsWidget(height, width, currentTheme, themeMode),

@@ -8,7 +8,6 @@ import 'package:news/screens/radio/radio_screen.dart';
 import 'package:news/type/types.dart';
 import 'package:news/widgets/styles.dart';
 import 'package:provider/provider.dart';
-import 'package:scroll_app_bar/scroll_app_bar.dart';
 import '../bookmark_page.dart';
 import 'ads/add_helper.dart';
 

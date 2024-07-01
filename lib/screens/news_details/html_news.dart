@@ -2,7 +2,6 @@ import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
 import 'package:news/widgets/styles.dart';
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
-import 'package:scroll_app_bar/scroll_app_bar.dart';
 
 class HTMLNews extends StatelessWidget {
   String htmlData;
@@ -45,8 +44,8 @@ class HTMLNews extends StatelessWidget {
       // webView: true,
     );
     return Scaffold(
-        appBar: ScrollAppBar(
-          controller: controller,
+        appBar: AppBar(
+          
            backgroundColor: Colors.blue[900],
           // backgroundColor: Colors.blue[900],
           // title: heading(

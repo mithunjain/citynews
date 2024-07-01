@@ -35,7 +35,7 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:path_provider/path_provider.dart';
 import 'package:provider/provider.dart';
-import 'package:share/share.dart';
+import 'package:share_plus/share_plus.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:toast/toast.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -814,18 +814,18 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                     onTap: () {
                                       try {
                                         launch("market://details?id=" +
-                                            'com.newsbank.app');
+                                            'com.citynews.india');
                                       } on PlatformException catch (_) {
                                         launch(
                                             "https://play.google.com/store/apps/details?id=" +
-                                                'com.newsbank.app');
+                                                'com.citynews.india');
                                       } finally {
                                         launch(
                                             "https://play.google.com/store/apps/details?id=" +
-                                                'com.newsbank.app');
+                                                'com.citynews.india');
                                       }
                                       // _launchURL(
-                                      //     'https://play.google.com/store/apps/details?id=com.newsbank.app');
+                                      //     'https://play.google.com/store/apps/details?id=com.citynews.india');
                                     },
                                     child: Container(
                                         width:
@@ -851,18 +851,18 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                             //     onTap: () {
                             //       try {
                             //         launch("market://details?id=" +
-                            //             'com.newsbank.app');
+                            //             'com.citynews.india');
                             //       } on PlatformException catch (_) {
                             //         launch(
                             //             "https://play.google.com/store/apps/details?id=" +
-                            //                 'com.newsbank.app');
+                            //                 'com.citynews.india');
                             //       } finally {
                             //         launch(
                             //             "https://play.google.com/store/apps/details?id=" +
-                            //                 'com.newsbank.app');
+                            //                 'com.citynews.india');
                             //       }
                             //       // _launchURL(
-                            //       //     'https://play.google.com/store/apps/details?id=com.newsbank.app');
+                            //       //     'https://play.google.com/store/apps/details?id=com.citynews.india');
                             //     },
                             //     child: Container(
                             //         width: MediaQuery.of(context).size.width * .15,
@@ -1094,18 +1094,18 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
           //                 onTap: () {
           //                   try {
           //                     launch(
-          //                         "market://details?id=" + 'com.newsbank.app');
+          //                         "market://details?id=" + 'com.citynews.india');
           //                   } on PlatformException catch (_) {
           //                     launch(
           //                         "https://play.google.com/store/apps/details?id=" +
-          //                             'com.newsbank.app');
+          //                             'com.citynews.india');
           //                   } finally {
           //                     launch(
           //                         "https://play.google.com/store/apps/details?id=" +
-          //                             'com.newsbank.app');
+          //                             'com.citynews.india');
           //                   }
           //                   // _launchURL(
-          //                   //     'https://play.google.com/store/apps/details?id=com.newsbank.app');
+          //                   //     'https://play.google.com/store/apps/details?id=com.citynews.india');
           //                 },
           //                 child: Container(
           //                     child: Text('रेटिंग दें',
@@ -2140,15 +2140,15 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                     child: ListTile(
                       onTap: () {
                         try {
-                          launch("market://details?id=" + 'com.newsbank.app');
+                          launch("market://details?id=" + 'com.citynews.india');
                         } on PlatformException catch (_) {
                           launch(
                               "https://play.google.com/store/apps/details?id=" +
-                                  'com.newsbank.app');
+                                  'com.citynews.india');
                         } finally {
                           launch(
                               "https://play.google.com/store/apps/details?id=" +
-                                  'com.newsbank.app');
+                                  'com.citynews.india');
                         }
                       },
                       visualDensity: VisualDensity(horizontal: 0, vertical: -4),
@@ -2172,18 +2172,18 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                   TextButton(
                     onPressed: () {
                       try {
-                        launch("market://details?id=" + 'com.newsbank.app');
+                        launch("market://details?id=" + 'com.citynews.india');
                       } on PlatformException catch (_) {
                         launch(
                             "https://play.google.com/store/apps/details?id=" +
-                                'com.newsbank.app');
+                                'com.citynews.india');
                       } finally {
                         launch(
                             "https://play.google.com/store/apps/details?id=" +
-                                'com.newsbank.app');
+                                'com.citynews.india');
                       }
                       // _launchURL(
-                      //     'https://play.google.com/store/apps/details?id=com.newsbank.app');
+                      //     'https://play.google.com/store/apps/details?id=com.citynews.india');
                     },
                     child: ListTile(
                       visualDensity: VisualDensity(horizontal: 0, vertical: -4),

@@ -376,18 +376,19 @@ class _AnyaRajyaState extends State<AnyaRajya> with TickerProviderStateMixin {
                     InkWell(
                         onTap: () {
                           try {
-                            launch("market://details?id=" + 'com.newsbank.app');
+                            launch(
+                                "market://details?id=" + 'com.citynews.india');
                           } on PlatformException catch (_) {
                             launch(
                                 "https://play.google.com/store/apps/details?id=" +
-                                    'com.newsbank.app');
+                                    'com.citynews.india');
                           } finally {
                             launch(
                                 "https://play.google.com/store/apps/details?id=" +
-                                    'com.newsbank.app');
+                                    'com.citynews.india');
                           }
                           // _launchURL(
-                          //     'https://play.google.com/store/apps/details?id=com.newsbank.app');
+                          //     'https://play.google.com/store/apps/details?id=com.citynews.india');
                         },
                         child: Container(
                             child: Text('रेटिंग दें',

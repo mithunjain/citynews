@@ -1,4 +1,5 @@
 import 'dart:developer';
+import 'dart:io';
 import 'package:get/get.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:news/dynamic_link.dart';
@@ -9,8 +10,11 @@ import 'package:news/widgets/custome_web_view_screen.dart';
 import 'package:news/widgets/styles.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_share/flutter_share.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:provider/provider.dart';
+import 'package:share_plus/share_plus.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:http/http.dart' as http;
 
 class WebviewScreen extends StatefulWidget {
   // String newsTitle;
@@ -98,25 +102,44 @@ class _WebviewScreenState extends State<WebviewScreen> {
           actions: [
             GestureDetector(
                 onTap: () async {
+//                   final tempMap = args['data'];
+//                   tempMap['main_image_cropped'] = '';
+//                   print('afdsssssssssssaaaaaaaaa');
+//                   print(tempMap);
+//                   final newsData = {
+//                     "newsTitle": args["newsTitle"],
+//                     "newsURL": args["newsURL"],
+//                     "data": tempMap,
+//                   };
+// //! adding logic for dynamic url
+//                   print(newsData);
+//                   String url = '';
+//                     String customUrlScheme =
+//                                 'https://fir-tutorial-17116.web.app/?code=$newsData';
+//                   await generateUrl(newsData).then((value) => {
+//                         url = value,
+//                       });
+//                   final title =
+//                       "🇮🇳 अब एक ही📱ऍप में पाऐं सभी प्रमुख अखबारों, पोर्टलों के समाचार हिंदी में। अभी डाउनलोड करें 👇🇮🇳\n" +
+//                           Uri.parse(url).toString();
+//                   FlutterShare.share(title: "Title", text: title);
                   final tempMap = args['data'];
-                  tempMap['main_image_cropped'] = '';
-                  print('afdsssssssssssaaaaaaaaa');
-                  print(tempMap);
-                  final newsData = {
-                    "newsTitle": args["newsTitle"],
-                    "newsURL": args["newsURL"],
-                    "data": tempMap,
-                  };
-//! adding logic for dynamic url
-                  print(newsData);
-                  String url = '';
-                  await generateUrl(newsData).then((value) => {
-                        url = value,
-                      });
-                  final title =
-                      "🇮🇳 अब एक ही📱ऍप में पाऐं सभी प्रमुख अखबारों, पोर्टलों के समाचार हिंदी में। अभी डाउनलोड करें 👇🇮🇳\n" +
-                          Uri.parse(url).toString();
-                  FlutterShare.share(title: "Title", text: title);
+                  tempMap['main_image_cropped'] =
+                      args["main_image_thumb"].toString();
+
+// Assuming each news item has a unique identifier
+                  String url = args["newsURL"].toString();
+                  String customUrlScheme =
+                      'https://city-news-b0dd2.web.app/?code=$url';
+
+// Share content without image
+                  final title = args["title"] ?? "Check this out!";
+                  final text = '$title\nCheck out more here: $customUrlScheme';
+
+                  await Share.share(
+                    text,
+                    subject: title,
+                  );
                 },
                 child: Icon(Icons.share, color: Colors.white)),
             SizedBox(width: 14),
@@ -295,8 +318,8 @@ class _WebviewScreenState extends State<WebviewScreen> {
         ),
       ),
       body: CustomeWebViewScreen(
-            url: args['newsURL'].toString(),
-          ),
+        url: args['newsURL'].toString(),
+      ),
     );
   }
 }

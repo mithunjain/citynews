@@ -1,5 +1,5 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.newsbank.app">
+    package="com.citynews.india">
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
@@ -14,7 +14,7 @@
             android:configChanges="orientation|keyboardHidden|keyboard|screenSize|smallestScreenSize|locale|layoutDirection|fontScale|screenLayout|density|uiMode"
             android:exported="true"
             android:hardwareAccelerated="true"
-            android:launchMode="singleTop"
+            android:launchMode="singleTask"
             android:theme="@style/LaunchTheme"
             android:windowSoftInputMode="adjustResize">
             <!-- Specifies an Android theme to apply to this Activity as soon as
@@ -40,26 +40,41 @@
             <meta-data
                 android:name="flutter_deeplinking_enabled"
                 android:value="true" />
-            <!--            <intent-filter android:autoVerify="true">-->
-            <!--                <action android:name="android.intent.action.VIEW" />-->
-            <!--                &lt;!&ndash; <category android:name="android.intent.category.DEFAULT" />-->
-            <!--                <category android:name="android.intent.category.BROWSABLE" /> &ndash;&gt;-->
-            <!--                &lt;!&ndash; <data android:scheme="http" android:host="ingnnewsbank.page.link" />
-            &ndash;&gt;-->
-            <!--                <data android:scheme="http" />-->
-            <!--            </intent-filter>-->
 
             <intent-filter>
-                <action android:name="android.intent.action.VIEW" />: android:exported=”true” <category
-                    android:name="android.intent.category.DEFAULT" />: android:exported=”true” <category
-                    android:name="android.intent.category.BROWSABLE" />: android:exported=”true” <data
-                    android:host="ingnnewsbank.page.link"
-                    android:scheme="https" />
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
 
+            <meta-data android:name="flutter_deeplinking_enabled" android:value="true" />
+            <!-- <intent-filter android:autoVerify="true">
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <data android:scheme="https" android:host="city-news-b0dd2.web.app"/>
+                <data android:scheme="https" />
+            </intent-filter> -->
+            <intent-filter>
+
+                <action android:name='android.intent.action.VIEW' />
+                <category android:name='android.intent.category.DEFAULT' />
+                <category android:name='android.intent.category.BROWSABLE' />
+                <data
+                    android:scheme='https'
+                    android:host="city-news-b0dd2.web.app" />
+            </intent-filter>
+            <intent-filter android:autoVerify="true">
+
+                <action android:name='android.intent.action.VIEW' />
+                <category android:name='android.intent.category.DEFAULT' />
+                <category android:name='android.intent.category.BROWSABLE' />
+                <data
+                    android:scheme='https'
+                    android:host="city-news-b0dd2.web.app" />
+            </intent-filter>
         </activity>
 
-
+      
         <!-- Don't delete the meta-data below.
              This is used by the Flutter tool to generate GeneratedPluginRegistrant.java -->
         <meta-data

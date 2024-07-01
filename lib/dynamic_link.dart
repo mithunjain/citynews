@@ -12,9 +12,7 @@ Future<String> generateUrl(data) async {
   //print(data);
   final tempData = data as Map;
 
-  if(Firebase.apps.length == 0)
-    await Firebase.initializeApp();
-
+  if (Firebase.apps.length == 0) await Firebase.initializeApp();
 
   //await Firebase.initializeApp();
 
@@ -30,14 +28,14 @@ Future<String> generateUrl(data) async {
   if (!readNews.contains(data['newsTitle'])) readNews.add(data['newsTitle']);
 
   final parameters = DynamicLinkParameters(
-    uriPrefix: "https://ingnnewsbank.page.link",
+    uriPrefix: "https://citynews.page.link",
     navigationInfoParameters:
         NavigationInfoParameters(forcedRedirectEnabled: false),
     link: Uri.parse(
-        "https://ingnnewsbank.page.link?link=${data['newsURL']}&newsTitle=${data['newsTitle']}"),
+        "https://citynews.page.link?link=${data['newsURL']}&newsTitle=${data['newsTitle']}"),
 
     //  link: Uri.parse("https://www.google.com/news?data=${jsonEncode(data)}"),
-    androidParameters: AndroidParameters(packageName: "com.newsbank.app"),
+    androidParameters: AndroidParameters(packageName: "com.citynews.india"),
   );
 
   final ShortDynamicLink shortDynamicLink =
@@ -46,7 +44,7 @@ Future<String> generateUrl(data) async {
 
   print("Short url is: ${shortUrl}");
 
-  return "https://ingnnewsbank.page.link" + shortUrl.path;
+  return "https://citynews.page.link" + shortUrl.path;
 }
 
 Future<void> startDynamicLink() async {

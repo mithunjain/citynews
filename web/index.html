@@ -22,14 +22,34 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black">
   <meta name="apple-mobile-web-app-title" content="news">
   <link rel="apple-touch-icon" href="icons/Icon-192.png">
-
-  <title>news</title>
+  <link rel="icon" type="image/png" href="favicon.png"/>
+  <title>City News</title>
   <link rel="manifest" href="manifest.json">
+  <script>
+    // The value below is injected by flutter build, do not touch.
+    const serviceWorkerVersion = null;
+  </script>
+  <script src="flutter.js" defer></script>
 </head>
 <body>
-  <!-- This script installs service_worker.js to provide PWA functionality to
-       application. For more information, see:
-       https://developers.google.com/web/fundamentals/primers/service-workers -->
+  <script>
+    window.addEventListener('load', function(ev) {
+      // Download main.dart.js
+      _flutter.loader.loadEntrypoint({
+        serviceWorker: {
+          serviceWorkerVersion: serviceWorkerVersion,
+        },
+        onEntrypointLoaded: function(engineInitializer) {
+          engineInitializer.initializeEngine().then(function(appRunner) {
+            appRunner.runApp();
+          });
+        }
+      });
+    });
+  </script>
+</body>
+<!-- <body>
+
   <script>
     var serviceWorkerVersion = null;
     var scriptLoaded = false;
@@ -94,5 +114,5 @@
       loadMainDartJs();
     }
   </script>
-</body>
+</body> -->
 </html>

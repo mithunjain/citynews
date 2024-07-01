@@ -2,8 +2,7 @@ import 'package:news/widgets/styles.dart';
 import 'package:chewie/chewie.dart';
 import 'package:flutter/material.dart';
 import 'package:video_player/video_player.dart';
-import 'package:wakelock/wakelock.dart';
-
+import 'package:wakelock_plus/wakelock_plus.dart';
 class RadioPlayer extends StatefulWidget {
   String embedUrl;
   String channelName;
@@ -51,7 +50,7 @@ class _RadioPlayerState extends State<RadioPlayer> {
   @override
   void initState() {
     super.initState();
-    Wakelock.enable();
+    WakelockPlus.enable();
     setState(() {
       print(widget.embedUrl);
     });
@@ -63,7 +62,7 @@ class _RadioPlayerState extends State<RadioPlayer> {
     super.dispose();
     _videocontroller!.dispose();
     chewieController.dispose();
-    Wakelock.disable();
+    WakelockPlus.disable();
   }
 
   @override
